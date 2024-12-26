@@ -6,13 +6,12 @@
 
     <groupId>com.ws.rpc</groupId>
     <artifactId>xianger-rpc</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>  <!-- 父项目一般使用pom作为打包方式 -->
     <name>xianger-rpc</name>
 
 
     <modules>
-
         <module>rpc-core</module>
         <module>rpc-client</module>
         <module>rpc-server</module>
@@ -22,6 +21,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <xianger-rpc.version>1.0</xianger-rpc.version>
         <curator.version>4.0.0</curator.version>
         <lombok.version>1.18.20</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>

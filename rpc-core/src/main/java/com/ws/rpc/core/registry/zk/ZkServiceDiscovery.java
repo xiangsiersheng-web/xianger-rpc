@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * @author ws
+ * @Reference https://github.com/viego1999/wxy-rpc/tree/master
  * @version 1.0
  * @date 2024-12-27 2:00
  */
@@ -102,7 +102,7 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
      * 根据请求的服务名称进行服务发现并负载均衡
      */
     @Override
-    public void discover(RpcRequest rpcRequest) throws Exception {
+    public ServiceInfo discover(RpcRequest rpcRequest) throws Exception {
         try {
             return loadBalance.select(getServices(rpcRequest.getServiceName()), rpcRequest);
         } catch (Exception e) {
