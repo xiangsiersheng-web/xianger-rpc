@@ -1,6 +1,6 @@
 package com.ws.rpc.client.transport.socket;
 
-import com.ws.rpc.client.dto.RequestMetaData;
+import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.exception.RpcException;
@@ -20,13 +20,13 @@ import java.net.Socket;
 @Slf4j
 public class SocketRpcClient implements RpcClient {
     @Override
-    public RpcResponse sendRequest(RequestMetaData requestMetaData) {
-        InetSocketAddress serverSocketAddress = new InetSocketAddress(requestMetaData.getServiceAddress(), requestMetaData.getServicePort());
+    public RpcResponse sendRequest(RpcRequestMetaData rpcRequestMetaData) {
+        InetSocketAddress serverSocketAddress = new InetSocketAddress(rpcRequestMetaData.getServiceAddress(), rpcRequestMetaData.getServicePort());
         try (Socket socket = new Socket()) {
             // 连接服务端，阻塞
             socket.connect(serverSocketAddress);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(requestMetaData.getRpcMessage().getBody());
+            oos.writeObject(rpcRequestMetaData.getRpcMessage().getBody());
             oos.flush();
             // 读取服务端返回的响应，阻塞
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());

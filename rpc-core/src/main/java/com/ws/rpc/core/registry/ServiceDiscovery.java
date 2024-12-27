@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ServiceDiscovery {
-    ServiceInfo discover(RpcRequest rpcRequest) throws Exception;
+    ServiceInfo discover(RpcRequest rpcRequest);
 
     default List<ServiceInfo> getServices(String serviceName) throws Exception {
         return new ArrayList<>();

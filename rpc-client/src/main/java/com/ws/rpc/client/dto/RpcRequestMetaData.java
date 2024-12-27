@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestMetaData {
+public class RpcRequestMetaData {
     private RpcMessage rpcMessage;
     private String serviceAddress;
     private Integer servicePort;

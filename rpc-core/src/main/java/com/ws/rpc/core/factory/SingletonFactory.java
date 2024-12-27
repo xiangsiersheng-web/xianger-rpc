@@ -11,15 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SingletonFactory {
     private static Map<String, Object> OBJECT_MAP = new ConcurrentHashMap<>();
-    private static final Object LOCK = new Object();
 
     public static <T> T getInstance(Class<T> clazz) {
         try {
+            // 获取类的全限定名
             String className = clazz.getName();
             if (OBJECT_MAP.containsKey(className)) {
                 return clazz.cast(OBJECT_MAP.get(className));
             } else {
-                synchronized (LOCK) {
+                synchronized (className.intern()) {
                     // 双重检查
                     if (OBJECT_MAP.containsKey(className)) {
                         return clazz.cast(OBJECT_MAP.get(className));

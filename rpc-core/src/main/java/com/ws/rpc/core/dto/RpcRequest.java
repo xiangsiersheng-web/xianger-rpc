@@ -1,5 +1,6 @@
 package com.ws.rpc.core.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @date 2024-12-27 0:21
  */
 @Data
+@Builder
 public class RpcRequest implements Serializable {
     /**
      * 服务名+版本

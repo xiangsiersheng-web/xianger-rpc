@@ -102,7 +102,7 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
      * 根据请求的服务名称进行服务发现并负载均衡
      */
     @Override
-    public ServiceInfo discover(RpcRequest rpcRequest) throws Exception {
+    public ServiceInfo discover(RpcRequest rpcRequest) {
         try {
             return loadBalance.select(getServices(rpcRequest.getServiceName()), rpcRequest);
         } catch (Exception e) {

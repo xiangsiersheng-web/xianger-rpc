@@ -1,6 +1,6 @@
 package com.ws.rpc.client.transport;
 
-import com.ws.rpc.client.dto.RequestMetaData;
+import com.ws.rpc.client.dto.RpcRequestMetaData;
 
 import com.ws.rpc.core.dto.RpcResponse;
 
@@ -12,8 +12,8 @@ import com.ws.rpc.core.dto.RpcResponse;
 public interface RpcClient {
     /**
      * 具体的实现类根据 requestMetaData 发送请求
-     * @param requestMetaData
+     * @param rpcRequestMetaData
      * @return
      */
-    RpcResponse sendRequest(RequestMetaData requestMetaData);
+    RpcResponse sendRequest(RpcRequestMetaData rpcRequestMetaData);
 }
