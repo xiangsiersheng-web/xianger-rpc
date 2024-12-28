@@ -35,7 +35,7 @@ public class SocketRpcServer implements RpcServer {
             serverSocket.bind(new InetSocketAddress(port));
             Socket socket;
             while ((socket = serverSocket.accept()) != null) {
-                log.debug("The client connected [{}].", socket.getInetAddress());
+                log.debug("The client connected [{}:{}].", socket.getInetAddress(), socket.getPort());
                 threadPool.execute(new SocketRpcRequestHandler(socket));
             }
             // 服务端断开后，关闭线程池

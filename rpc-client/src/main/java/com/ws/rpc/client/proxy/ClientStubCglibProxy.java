@@ -15,11 +15,11 @@ import java.lang.reflect.Method;
  */
 public class ClientStubCglibProxy implements MethodInterceptor {
     private final String serviceKey;
-    @Autowired
-    private RemoteMethodCall remoteMethodCall;
+    private final RemoteMethodCall remoteMethodCall;
 
-    public ClientStubCglibProxy(String serviceKey) {
+    public ClientStubCglibProxy(String serviceKey, RemoteMethodCall remoteMethodCall) {
         this.serviceKey = serviceKey;
+        this.remoteMethodCall = remoteMethodCall;
     }
 
     @Override

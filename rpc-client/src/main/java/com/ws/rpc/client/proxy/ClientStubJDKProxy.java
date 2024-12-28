@@ -14,11 +14,11 @@ import java.lang.reflect.Proxy;
  */
 public class ClientStubJDKProxy implements InvocationHandler {
     private final String serviceKey;
-    @Autowired
-    private RemoteMethodCall remoteMethodCall;
+    private final RemoteMethodCall remoteMethodCall;
 
-    public ClientStubJDKProxy(String serviceKey) {
+    public ClientStubJDKProxy(String serviceKey, RemoteMethodCall remoteMethodCall) {
         this.serviceKey = serviceKey;
+        this.remoteMethodCall = remoteMethodCall;
     }
 
     @SuppressWarnings("unchecked")

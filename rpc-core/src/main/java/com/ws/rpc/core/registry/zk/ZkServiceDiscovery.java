@@ -104,24 +104,24 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
     @Override
     public ServiceInfo discover(RpcRequest rpcRequest) {
         try {
-            return loadBalance.select(getServices(rpcRequest.getServiceName()), rpcRequest);
+            return loadBalance.select(getServices(rpcRequest.getServiceKey()), rpcRequest);
         } catch (Exception e) {
-            log.error("Error while discovering service: {}", rpcRequest.getServiceName(), e);
-            throw new RpcException("Service discovery failed for " + rpcRequest.getServiceName(), e);
+            log.error("Error while discovering service: {}", rpcRequest.getServiceKey(), e);
+            throw new RpcException("Service discovery failed for " + rpcRequest.getServiceKey(), e);
         }
     }
 
     @Override
-    public List<ServiceInfo> getServices(String serviceName) throws Exception {
-        if (!serviceCacheMap.containsKey(serviceName)) {
-            initServiceCache(serviceName);
+    public List<ServiceInfo> getServices(String serviceKey) throws Exception {
+        if (!serviceCacheMap.containsKey(serviceKey)) {
+            initServiceCache(serviceKey);
         }
-        return serviceMap.get(serviceName);
+        return serviceMap.get(serviceKey);
     }
 
-    private void initServiceCache(String serviceName) {
+    private void initServiceCache(String serviceKey) throws Exception {
         ServiceCache<ServiceInfo> serviceCache = serviceDiscovery.serviceCacheBuilder()
-                .name(serviceName)
+                .name(serviceKey)
                 .build();
         serviceCache.addListener(new ServiceCacheListener() {
 
@@ -134,10 +134,19 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
             public void cacheChanged() {
                 List<ServiceInfo> services = serviceCache.getInstances().stream()
                         .map(ServiceInstance::getPayload).collect(Collectors.toList());
-                serviceMap.put(serviceName, services);
-                log.info("Updated service cache for service: {}. Current instances: {}", serviceName, services.size());
+                serviceMap.put(serviceKey, services);
+                log.info("Updated service cache for service: {}. Current instances: {}", serviceKey, services.size());
             }
         });
+        // 开启服务缓存监听
+        serviceCache.start();
+        // 将服务缓存对象存入本地
+        serviceCacheMap.put(serviceKey, serviceCache);
+        // 将服务列表缓存到本地
+        serviceMap.put(serviceKey, serviceCacheMap.get(serviceKey).getInstances()
+                .stream()
+                .map(ServiceInstance::getPayload)
+                .collect(Collectors.toList()));
     }
 
     @Override

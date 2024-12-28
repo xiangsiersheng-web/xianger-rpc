@@ -34,7 +34,7 @@ public class RemoteMethodCall {
     public Object call(String serviceKey, Method method, Object[] args) {
         // 构造request
         RpcRequest request = RpcRequest.builder()
-                .serviceName(serviceKey)
+                .serviceKey(serviceKey)
                 .methodName(method.getName())
                 .parameterTypes(method.getParameterTypes())
                 .parameters(args)

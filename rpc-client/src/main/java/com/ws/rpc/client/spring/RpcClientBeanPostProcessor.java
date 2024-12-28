@@ -14,7 +14,10 @@ import java.lang.reflect.Field;
  * @date 2024-12-27 23:44
  */
 public class RpcClientBeanPostProcessor implements BeanPostProcessor {
-
+    private final ClientStubProxyFactory clientStubProxyFactory;
+    public RpcClientBeanPostProcessor(ClientStubProxyFactory clientStubProxyFactory) {
+        this.clientStubProxyFactory = clientStubProxyFactory;
+    }
 
     /**
      * 对象初始化后，对注解进行扫描，生成代理对象
@@ -32,7 +35,7 @@ public class RpcClientBeanPostProcessor implements BeanPostProcessor {
             RpcReference rpcReference = declaredField.getAnnotation(RpcReference.class);
             if (rpcReference != null) {
                 Class<?> clazz = declaredField.getType();
-                Object proxy = ClientStubProxyFactory.getProxy(clazz, rpcReference.version());
+                Object proxy = clientStubProxyFactory.getProxy(clazz, rpcReference.version());
                 try {
                     declaredField.setAccessible(true);
                     declaredField.set(bean, proxy);

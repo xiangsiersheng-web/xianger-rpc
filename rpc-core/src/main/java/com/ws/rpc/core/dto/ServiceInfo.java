@@ -21,9 +21,9 @@ public class ServiceInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务名称（通常为接口的全限定名）
+     * 服务名称（全限定名+version）
      */
-    private String serviceName;
+    private String serviceKey;
 
     /**
      * 服务版本号，用于区分同一服务的不同版本
@@ -39,11 +39,6 @@ public class ServiceInfo implements Serializable {
      * 服务提供者的端口号
      */
     private int port;
-
-    /**
-     * 协议类型（如 HTTP, TCP 等）
-     */
-    private String protocol;
 
     /**
      * 服务权重，用于负载均衡策略

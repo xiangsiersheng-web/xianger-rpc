@@ -15,17 +15,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalServiceCache {
     private static final Map<String, Object> serviceCache = new ConcurrentHashMap<>();
 
-    public static void putService(String serviceName, Object service) {
-        serviceCache.put(serviceName, service);
-        log.debug("Put service: {} into cache.", serviceName);
+    public static void putService(String serviceKey, Object service) {
+        serviceCache.put(serviceKey, service);
+        log.debug("Put service: {} into cache.", serviceKey);
     }
 
-    public static Object getService(String serviceName) {
-        return serviceCache.get(serviceName);
+    public static Object getService(String serviceKey) {
+        return serviceCache.get(serviceKey);
     }
 
-    public static void removeService(String serviceName) {
-        serviceCache.remove(serviceName);
-        log.debug("Remove service: {} from cache.", serviceName);
+    public static void removeService(String serviceKey) {
+        serviceCache.remove(serviceKey);
+        log.debug("Remove service: {} from cache.", serviceKey);
     }
 }

@@ -11,5 +11,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "rpc.client")
 public class RpcClientProperties {
+
+    private String registryAddr;
     private long timeout;
+
+    public RpcClientProperties() {
+        this.registryAddr = "127.0.0.1:2181";
+        this.timeout = 5000;
+    }
 }
