@@ -3,9 +3,13 @@ package com.ws.rpc.client.remotecall;
 import com.ws.rpc.client.config.RpcClientProperties;
 import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
+import com.ws.rpc.core.constants.RpcConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.dto.ServiceInfo;
+import com.ws.rpc.core.enums.CompressType;
+import com.ws.rpc.core.enums.MessageType;
+import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.exception.RpcException;
 import com.ws.rpc.core.protocol.MessageHeader;
 import com.ws.rpc.core.protocol.RpcMessage;
@@ -45,8 +49,16 @@ public class RemoteMethodCall {
             log.error("Service discovery failed for " + serviceKey);
             throw new RpcException("Service discovery failed for " + serviceKey);
         }
-        // 构造请求消息 todo: 消息头设置
+        // 构造消息头
         MessageHeader header = new MessageHeader();
+        header.setMessageId(RpcConstants.MessageIdGenerator.nextId());
+        header.setMessageType(MessageType.REQUEST.getCode());
+        header.setCompressionAlgorithm(
+                CompressType.fromString(rpcClientProperties.getCompress()).getType());
+        header.setSerializationAlgorithm(
+                SerializationType.fromString(rpcClientProperties.getSerialization()).getType());
+
+        // 构造请求消息
         RpcMessage rpcMessage = new RpcMessage(header, request);
         RpcRequestMetaData requestMetaData = RpcRequestMetaData.builder()
                 .rpcMessage(rpcMessage)
