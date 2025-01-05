@@ -14,7 +14,7 @@ public class RpcClientProperties {
     private String loadbalance;
     private String serialization;
     private String transport;
-    private String compress;
+    private String compression;
     private String registry;
     private String registryAddr;
     private long timeout;
@@ -23,7 +23,7 @@ public class RpcClientProperties {
         this.loadbalance = "random";
         this.serialization = "jdk";
         this.transport = "netty";
-        this.compress = "none";
+        this.compression = "un_compression";
         this.registry = "zookeeper";
         this.registryAddr = "127.0.0.1:2181";
         this.timeout = 5000;

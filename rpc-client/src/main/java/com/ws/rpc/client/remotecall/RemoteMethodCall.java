@@ -54,7 +54,7 @@ public class RemoteMethodCall {
         header.setMessageId(ProtocolConstants.MessageIdGenerator.nextId());
         header.setMessageType(MessageType.REQUEST.getCode());
         header.setCompressionAlgorithm(
-                CompressionType.fromString(rpcClientProperties.getCompress()).getType());
+                CompressionType.fromString(rpcClientProperties.getCompression()).getType());
         header.setSerializationAlgorithm(
                 SerializationType.fromString(rpcClientProperties.getSerialization()).getType());
 

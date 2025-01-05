@@ -1,8 +1,12 @@
 package com.ws.rpc.core.serialization.json;
 
 import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.ws.rpc.core.exception.SerializationException;
 import com.ws.rpc.core.serialization.Serialization;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
@@ -14,8 +18,8 @@ import java.nio.charset.StandardCharsets;
 public class JsonSerialization implements Serialization {
 
     private final static Gson GSON = new GsonBuilder()
-                        .registerTypeAdapter(Class.class, new ClassTypeAdapter())
-                        .create();
+            .registerTypeAdapter(Class.class, new ClassTypeAdapter())
+            .create();
 
     private static class ClassTypeAdapter implements JsonSerializer<Class<?>>, JsonDeserializer<Class<?>> {
 
@@ -34,15 +38,24 @@ public class JsonSerialization implements Serialization {
         }
     }
 
+
     @Override
     public <T> byte[] doSerialize(T obj) {
-        String json = GSON.toJson(obj);
-        return json.getBytes(StandardCharsets.UTF_8);
+        try {
+            String json = GSON.toJson(obj);
+            return json.getBytes(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new SerializationException("Json serialize failed.", e);
+        }
     }
 
     @Override
     public <T> T doDeserialize(byte[] data, Class<T> clazz) {
-        String json = new String(data, StandardCharsets.UTF_8);
-        return GSON.fromJson(json, clazz);
+        try {
+            String json = new String(data, StandardCharsets.UTF_8);
+            return GSON.fromJson(json, clazz);
+        } catch (JsonSyntaxException e) {
+            throw new SerializationException("Json deserialize failed.", e);
+        }
     }
 }

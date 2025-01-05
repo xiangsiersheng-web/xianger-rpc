@@ -53,7 +53,6 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
             Serialization serialization = SerializationFactory.getSerialization(
                     SerializationType.valueOf(header.getSerializationAlgorithm()));
             bodyBytes = serialization.serialize(msg.getBody());
-            // todo 压缩
             Compression compression = CompressionFactory.getCompression(CompressionType.valueOf(header.getCompressionAlgorithm()));
             bodyBytes = compression.compress(bodyBytes);
             fullLength += bodyBytes.length;
