@@ -1,9 +1,11 @@
 package com.ws.rpc.core.codec;
 
+import com.ws.rpc.core.compression.Compression;
+import com.ws.rpc.core.compression.CompressionFactory;
 import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
-import com.ws.rpc.core.enums.CompressType;
+import com.ws.rpc.core.enums.CompressionType;
 import com.ws.rpc.core.enums.MessageType;
 import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.exception.RpcException;
@@ -18,8 +20,6 @@ import io.netty.handler.codec.MessageToMessageCodec;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.ws.rpc.core.utils.ByteBufferUtil.debugAll;
 
 /**
  * @author ws
@@ -53,9 +53,9 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
             Serialization serialization = SerializationFactory.getSerialization(
                     SerializationType.valueOf(header.getSerializationAlgorithm()));
             bodyBytes = serialization.serialize(msg.getBody());
-            if (header.getCompressionAlgorithm() != CompressType.NONE.getType()) {
-                // todo 压缩
-            }
+            // todo 压缩
+            Compression compression = CompressionFactory.getCompression(CompressionType.valueOf(header.getCompressionAlgorithm()));
+            bodyBytes = compression.compress(bodyBytes);
             fullLength += bodyBytes.length;
         }
         buffer.writeInt(fullLength);
@@ -97,6 +97,9 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
         if (bodyLength > 0) {
             byte[] tmp = new byte[bodyLength];
             msg.readBytes(tmp);
+            Compression compression = CompressionFactory.getCompression(
+                    CompressionType.valueOf(compressionAlgorithm));
+            tmp = compression.decompress(tmp);
             Serialization serialization = SerializationFactory.getSerialization(
                     SerializationType.valueOf(serializationAlgorithm));
             MessageType msgType = MessageType.valueOf(header.getMessageType());

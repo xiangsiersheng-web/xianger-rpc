@@ -1,7 +1,12 @@
 package com.ws.rpc.core.serialization;
 
 import com.ws.rpc.core.enums.SerializationType;
+import com.ws.rpc.core.factory.SingletonFactory;
+import com.ws.rpc.core.serialization.hessian.HessianSerialization;
 import com.ws.rpc.core.serialization.jdk.JdkSerialization;
+import com.ws.rpc.core.serialization.json.JsonSerialization;
+import com.ws.rpc.core.serialization.kryo.KryoSerialization;
+import com.ws.rpc.core.serialization.protostuff.ProtostuffSerialization;
 
 /**
  * @author ws
@@ -12,7 +17,15 @@ public class SerializationFactory {
     public static Serialization getSerialization(SerializationType serializationType) {
         switch (serializationType) {
             case JDK:
-                return new JdkSerialization();
+                return SingletonFactory.getInstance(JdkSerialization.class);
+            case JSON:
+                return SingletonFactory.getInstance(JsonSerialization.class);
+            case HESSIAN:
+                return SingletonFactory.getInstance(HessianSerialization.class);
+            case KRYO:
+                return SingletonFactory.getInstance(KryoSerialization.class);
+            case PROTOSTUFF:
+                return SingletonFactory.getInstance(ProtostuffSerialization.class);
             default:
                 throw new RuntimeException("Unsupported serialization type: " + serializationType);
         }

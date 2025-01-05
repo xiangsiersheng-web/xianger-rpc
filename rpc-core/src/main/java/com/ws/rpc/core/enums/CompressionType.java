@@ -1,25 +1,25 @@
 package com.ws.rpc.core.enums;
 
+import lombok.Getter;
+
 /**
  * 
  * @author ws
  * @version 1.0
  * @date 2025-01-01 22:08
  */
-public enum CompressType {
-    NONE((byte) 0);
+@Getter
+public enum CompressionType {
+    UN_COMPRESSION((byte) 0),
+    GZIP((byte) 1);
 
     private final byte type;
-    CompressType(byte type) {
+    CompressionType(byte type) {
         this.type = type;
     }
 
-    public byte getType() {
-        return type;
-    }
-
-    public static CompressType valueOf(byte type) {
-        for (CompressType value : values()) {
+    public static CompressionType valueOf(byte type) {
+        for (CompressionType value : values()) {
             if (value.type == type) {
                 return value;
             }
@@ -27,8 +27,8 @@ public enum CompressType {
         throw new IllegalArgumentException("unknown serialization type : " + type);
     }
 
-    public static CompressType fromString(String name) {
-        for (CompressType value : values()) {
+    public static CompressionType fromString(String name) {
+        for (CompressionType value : values()) {
             if (value.name().equalsIgnoreCase(name)) {
                 return value;
             }

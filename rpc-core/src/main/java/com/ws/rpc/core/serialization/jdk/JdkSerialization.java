@@ -13,25 +13,20 @@ import java.io.*;
  */
 public class JdkSerialization implements Serialization {
     @Override
-    public <T> byte[] serialize(T obj) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(byteArrayOutputStream);
+    public <T> byte[] doSerialize(T obj) throws IOException {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(byteArrayOutputStream);) {
             oos.writeObject(obj);
             return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new SerializationException("Jdk serialize failed.", e);
         }
     }
 
     @Override
-    public <T> T deserialize(byte[] data, Class<T> clazz) {
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-            ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);
-            return (T) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new SerializationException("Jdk deserialize failed.", e);
+    public <T> T doDeserialize(byte[] data, Class<T> clazz) throws IOException, ClassNotFoundException {
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
+             ObjectInputStream ois = new ObjectInputStream(byteArrayInputStream);) {
+            Object obj = ois.readObject();
+            return clazz.cast(obj);
         }
     }
 }

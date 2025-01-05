@@ -1,5 +1,7 @@
 package com.ws.rpc.core.serialization;
 
+import com.ws.rpc.core.exception.SerializationException;
+
 /**
  * @author ws
  * @version 1.0
@@ -13,7 +15,16 @@ public interface Serialization {
      * @param <T>
      * @return
      */
-    <T> byte[] serialize(T obj);
+    default <T> byte[] serialize(T obj) {
+        if (obj == null) {
+            throw new SerializationException("Serialization object is null.");
+        }
+        try {
+            return doSerialize(obj);
+        } catch (Exception e) {
+            throw new SerializationException("Serialization failed.", e);
+        }
+    }
 
 
     /**
@@ -24,5 +35,21 @@ public interface Serialization {
      * @param <T>
      * @return
      */
-    <T> T deserialize(byte[] data, Class<T> clazz);
+    default <T> T deserialize(byte[] data, Class<T> clazz) {
+        if (data == null || data.length == 0) {
+            throw new SerializationException("Data to deserialize cannot be null or empty.");
+        }
+        if (clazz == null) {
+            throw new SerializationException("Target class cannot be null.");
+        }
+        try {
+            return doDeserialize(data, clazz);
+        } catch (Exception e) {
+            throw new SerializationException("Deserialization failed.", e);
+        }
+    }
+
+    <T> byte[] doSerialize(T obj) throws Exception;
+
+    <T> T doDeserialize(byte[] data, Class<T> clazz) throws Exception;
 }

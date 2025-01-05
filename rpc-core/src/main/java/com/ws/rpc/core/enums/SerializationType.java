@@ -1,20 +1,23 @@
 package com.ws.rpc.core.enums;
 
+import lombok.Getter;
+
 /**
  * @author ws
  * @version 1.0
  * @date 2025-01-01 22:06
  */
+@Getter
 public enum SerializationType {
-    JDK((byte) 1);
+    JDK((byte) 1),
+    JSON((byte) 2),
+    HESSIAN((byte) 3),
+    KRYO((byte) 4),
+    PROTOSTUFF((byte) 5);
 
     private final byte type;
     SerializationType(byte type) {
         this.type = type;
-    }
-
-    public byte getType() {
-        return type;
     }
 
     public static SerializationType valueOf(byte type) {

@@ -7,7 +7,7 @@ import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.dto.ServiceInfo;
-import com.ws.rpc.core.enums.CompressType;
+import com.ws.rpc.core.enums.CompressionType;
 import com.ws.rpc.core.enums.MessageType;
 import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.exception.RpcException;
@@ -54,7 +54,7 @@ public class RemoteMethodCall {
         header.setMessageId(ProtocolConstants.MessageIdGenerator.nextId());
         header.setMessageType(MessageType.REQUEST.getCode());
         header.setCompressionAlgorithm(
-                CompressType.fromString(rpcClientProperties.getCompress()).getType());
+                CompressionType.fromString(rpcClientProperties.getCompress()).getType());
         header.setSerializationAlgorithm(
                 SerializationType.fromString(rpcClientProperties.getSerialization()).getType());
 

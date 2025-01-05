@@ -1,6 +1,6 @@
 package com.ws.rpc.core.protocol;
 
-import com.ws.rpc.core.enums.CompressType;
+import com.ws.rpc.core.enums.CompressionType;
 import com.ws.rpc.core.enums.MessageType;
 import com.ws.rpc.core.enums.SerializationType;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class RpcMessage {
         MessageHeader header = new MessageHeader();
         header.setMessageType(MessageType.HEARTBEAT_REQUEST.getCode());
         header.setSerializationAlgorithm(SerializationType.JDK.getType());
-        header.setCompressionAlgorithm(CompressType.NONE.getType());
+        header.setCompressionAlgorithm(CompressionType.UN_COMPRESSION.getType());
 
         RpcMessage rpcMessage = new RpcMessage(header, ProtocolConstants.PING);
         return rpcMessage;

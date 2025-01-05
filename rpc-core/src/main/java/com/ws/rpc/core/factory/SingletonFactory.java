@@ -19,7 +19,8 @@ public class SingletonFactory {
             if (OBJECT_MAP.containsKey(className)) {
                 return clazz.cast(OBJECT_MAP.get(className));
             } else {
-                synchronized (className.intern()) {
+//                synchronized (className.intern()) {
+                synchronized (clazz) {
                     // 双重检查
                     if (OBJECT_MAP.containsKey(className)) {
                         return clazz.cast(OBJECT_MAP.get(className));

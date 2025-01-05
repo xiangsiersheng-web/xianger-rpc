@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 public class CompressTypeTest {
     @Test
     public void testCompressType() {
-        CompressType nonE = CompressType.fromString("NonE");
-        assertEquals(CompressType.NONE, nonE);
+        CompressionType nonE = CompressionType.fromString("NonE");
+        assertEquals(CompressionType.UN_COMPRESSION, nonE);
         System.out.println(nonE.getType());
     }
 
