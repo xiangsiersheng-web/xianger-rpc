@@ -2,6 +2,3 @@ rpc:
   client:
     registry-addr: 192.168.150.160:2181
 
-logging:
-  level:
-    com.ws.rpc: debug

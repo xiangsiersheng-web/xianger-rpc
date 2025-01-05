@@ -1,6 +1,6 @@
 package com.ws.rpc.core.codec;
 
-import com.ws.rpc.core.constants.RpcConstants;
+import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.enums.CompressType;
@@ -18,6 +18,8 @@ import io.netty.handler.codec.MessageToMessageCodec;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.ws.rpc.core.utils.ByteBufferUtil.debugAll;
 
 /**
  * @author ws
@@ -45,7 +47,7 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
         buffer.writeByte(header.getCompressionAlgorithm());     // 压缩算法
         buffer.writeInt(header.getMessageId());                 // 消息id
 
-        int fullLength = RpcConstants.HEAD_LENGTH;
+        int fullLength = ProtocolConstants.HEAD_LENGTH;
         byte[] bodyBytes = null;
         if (msg.getBody() != null) {
             Serialization serialization = SerializationFactory.getSerialization(
@@ -91,7 +93,7 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
                 .build();
         RpcMessage rpcMessage = new RpcMessage(header, null);
 
-        int bodyLength = fullLength - RpcConstants.HEAD_LENGTH;
+        int bodyLength = fullLength - ProtocolConstants.HEAD_LENGTH;
         if (bodyLength > 0) {
             byte[] tmp = new byte[bodyLength];
             msg.readBytes(tmp);
@@ -113,11 +115,11 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
     }
 
     private byte[] checkMagicNumber(ByteBuf msg) {
-        int len = RpcConstants.MAGIC_NUMBER.length;
+        int len = ProtocolConstants.MAGIC_NUMBER.length;
         byte[] tmp = new byte[len];
         msg.readBytes(tmp);
         for (int i = 0; i < len; i++) {
-            if (tmp[i] != RpcConstants.MAGIC_NUMBER[i]) {
+            if (tmp[i] != ProtocolConstants.MAGIC_NUMBER[i]) {
                 throw new RpcException("Unknown magic code: " + Arrays.toString(tmp));
             }
         }
@@ -126,7 +128,7 @@ public class RpcMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> 
 
     private byte checkVersion(ByteBuf msg) {
         byte version = msg.readByte();
-        if (version != RpcConstants.VERSION) {
+        if (version != ProtocolConstants.VERSION) {
             throw new RpcException("Version is not compatible: " + version);
         }
         return version;

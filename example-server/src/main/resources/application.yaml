@@ -4,6 +4,3 @@ rpc:
     port: 9991
     registry-addr: 192.168.150.160:2181
 
-logging:
-  level:
-    com.ws.rpc: debug

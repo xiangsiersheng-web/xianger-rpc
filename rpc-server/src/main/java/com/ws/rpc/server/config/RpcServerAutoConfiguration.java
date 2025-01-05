@@ -5,6 +5,7 @@ import com.ws.rpc.core.registry.zk.ZkServiceRegistry;
 import com.ws.rpc.server.spring.RpcBeanPostProcessor;
 import com.ws.rpc.server.spring.RpcServerRunner;
 import com.ws.rpc.server.transport.RpcServer;
+import com.ws.rpc.server.transport.netty.NettyRpcServer;
 import com.ws.rpc.server.transport.socket.SocketRpcServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,9 +31,14 @@ public class RpcServerAutoConfiguration {
         return new ZkServiceRegistry(properties.getRegistryAddr());
     }
 
+//    @Bean
+//    public RpcServer rpcServer() {
+//        return new SocketRpcServer();
+//    }
+
     @Bean
     public RpcServer rpcServer() {
-        return new SocketRpcServer();
+        return new NettyRpcServer();
     }
 
     @Bean

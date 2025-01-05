@@ -4,6 +4,7 @@ import com.ws.rpc.client.proxy.ClientStubProxyFactory;
 import com.ws.rpc.client.remotecall.RemoteMethodCall;
 import com.ws.rpc.client.spring.RpcClientBeanPostProcessor;
 import com.ws.rpc.client.transport.RpcClient;
+import com.ws.rpc.client.transport.netty.NettyRpcClient;
 import com.ws.rpc.client.transport.socket.SocketRpcClient;
 import com.ws.rpc.core.loadbalance.LoadBalance;
 import com.ws.rpc.core.loadbalance.impl.RoundRobinLoadBalance;
@@ -41,15 +42,21 @@ public class RpcClientAutoConfiguration {
         return new ZkServiceDiscovery(properties.getRegistryAddr(), loadBalance);
     }
 
+//    @Bean(name = "rpcClient")
+//    public RpcClient rpcClient(@Autowired ServiceDiscovery serviceDiscovery) {
+//        return new SocketRpcClient();
+//    }
+
     @Bean(name = "rpcClient")
     public RpcClient rpcClient(@Autowired ServiceDiscovery serviceDiscovery) {
-        return new SocketRpcClient();
+        return new NettyRpcClient();
     }
 
     @Bean
     public RemoteMethodCall remoteMethodCall(@Autowired RpcClient rpcClient,
                                              @Autowired ServiceDiscovery serviceDiscovery) {
         // RemoteMethodCall 负责远程方法的调用
+        log.debug("Creating remote method call instance. dependency: {} \n {}", rpcClient, serviceDiscovery);
         return new RemoteMethodCall(properties, rpcClient, serviceDiscovery);
     }
 

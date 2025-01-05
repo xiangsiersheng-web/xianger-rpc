@@ -1,6 +1,5 @@
 package com.ws.rpc.core.protocol;
 
-import com.ws.rpc.core.constants.RpcConstants;
 import com.ws.rpc.core.enums.CompressType;
 import com.ws.rpc.core.enums.MessageType;
 import com.ws.rpc.core.enums.SerializationType;
@@ -27,7 +26,7 @@ public class RpcMessage {
         header.setSerializationAlgorithm(SerializationType.JDK.getType());
         header.setCompressionAlgorithm(CompressType.NONE.getType());
 
-        RpcMessage rpcMessage = new RpcMessage(header, RpcConstants.PING);
+        RpcMessage rpcMessage = new RpcMessage(header, ProtocolConstants.PING);
         return rpcMessage;
     }
 

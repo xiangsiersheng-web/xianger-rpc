@@ -1,4 +1,4 @@
-package com.ws.rpc.core.constants;
+package com.ws.rpc.core.protocol;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0
  * @date 2025-01-01 19:55
  */
-public class RpcConstants {
+public class ProtocolConstants {
     public static final byte[] MAGIC_NUMBER = new byte[]{(byte) 'x', (byte) 'r', (byte) 'p', (byte) 'c'};
     public static final byte VERSION = 1;
 

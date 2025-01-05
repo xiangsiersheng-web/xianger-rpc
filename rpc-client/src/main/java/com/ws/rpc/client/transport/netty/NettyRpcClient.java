@@ -12,6 +12,8 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultPromise;
 import io.netty.util.concurrent.Promise;
@@ -46,9 +48,10 @@ public class NettyRpcClient implements RpcClient {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         // 写空闲时触发一个 IdleStateEvent#WRITER_IDLE
-                        ch.pipeline().addLast(new IdleStateHandler(0, 5, 0, TimeUnit.SECONDS));
+                        ch.pipeline().addLast(new IdleStateHandler(0, 15, 0, TimeUnit.SECONDS));
                         // 帧解码器 粘包拆包
                         ch.pipeline().addLast(RPC_FRAME_DECODER);
+                        ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                         // 协议编解码器
                         ch.pipeline().addLast(RPC_MESSAGE_CODEC);
                         // 响应消息处理器

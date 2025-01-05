@@ -3,7 +3,7 @@ package com.ws.rpc.client.remotecall;
 import com.ws.rpc.client.config.RpcClientProperties;
 import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
-import com.ws.rpc.core.constants.RpcConstants;
+import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.dto.ServiceInfo;
@@ -51,7 +51,7 @@ public class RemoteMethodCall {
         }
         // 构造消息头
         MessageHeader header = new MessageHeader();
-        header.setMessageId(RpcConstants.MessageIdGenerator.nextId());
+        header.setMessageId(ProtocolConstants.MessageIdGenerator.nextId());
         header.setMessageType(MessageType.REQUEST.getCode());
         header.setCompressionAlgorithm(
                 CompressType.fromString(rpcClientProperties.getCompress()).getType());

@@ -1,6 +1,6 @@
 package com.ws.rpc.server.transport.netty;
 
-import com.ws.rpc.core.constants.RpcConstants;
+import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.enums.MessageType;
@@ -45,7 +45,7 @@ public class NettyRpcRequestHandler extends SimpleChannelInboundHandler<RpcMessa
                 log.debug("heartbeat msg. {}", msg.getBody());
                 header.setMessageType(MessageType.HEARTBEAT_RESPONSE.getCode());
                 responseRpcMessage.setHeader(header);
-                responseRpcMessage.setBody(RpcConstants.PONG);
+                responseRpcMessage.setBody(ProtocolConstants.PONG);
             } else if (msgType == MessageType.REQUEST) {
                 header.setMessageType(MessageType.RESPONSE.getCode());
                 // 反射调用

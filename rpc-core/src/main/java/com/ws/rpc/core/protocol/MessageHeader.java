@@ -1,6 +1,5 @@
 package com.ws.rpc.core.protocol;
 
-import com.ws.rpc.core.constants.RpcConstants;
 import com.ws.rpc.core.enums.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,12 +61,12 @@ public class MessageHeader {
      * 默认构造方法，设置属性默认值
      */
     public MessageHeader() {
-        this.magicNumber = RpcConstants.MAGIC_NUMBER;           // 默认魔数
-        this.version = RpcConstants.VERSION;                    // 默认版本号
+        this.magicNumber = ProtocolConstants.MAGIC_NUMBER;           // 默认魔数
+        this.version = ProtocolConstants.VERSION;                    // 默认版本号
         this.messageType = MessageType.REQUEST.getCode();   // 默认消息类型
         this.serializationAlgorithm = 0;                        // 默认序列化算法
         this.compressionAlgorithm = 0;                          // 默认压缩算法
         this.messageId = 0;                                     // 默认请求ID
-        this.fullLength = RpcConstants.HEAD_LENGTH;             // 默认消息长度（仅头部长度）
+        this.fullLength = ProtocolConstants.HEAD_LENGTH;             // 默认消息长度（仅头部长度）
     }
 }

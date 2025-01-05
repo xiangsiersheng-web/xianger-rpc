@@ -35,9 +35,9 @@ public class NettyRpcClientHandler extends SimpleChannelInboundHandler<RpcMessag
                     } else {
                         promise.setFailure(exception);
                     }
-                } else if (msgType == MessageType.HEARTBEAT_RESPONSE){
-                    log.info("Heartbeat msg. {}", msg.getBody());
                 }
+            } else if (msgType == MessageType.HEARTBEAT_RESPONSE){
+                log.info("Heartbeat msg. {}", msg.getBody());
             }
         } finally {
             //Ensure that ByteBuf is released, otherwise there may be memory leaks

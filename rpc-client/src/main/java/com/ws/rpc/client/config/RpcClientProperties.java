@@ -21,7 +21,7 @@ public class RpcClientProperties {
 
     public RpcClientProperties() {
         this.loadbalance = "random";
-        this.serialization = "json";
+        this.serialization = "jdk";
         this.transport = "netty";
         this.compress = "none";
         this.registry = "zookeeper";

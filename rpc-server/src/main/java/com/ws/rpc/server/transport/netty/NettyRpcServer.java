@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ws
@@ -41,15 +42,17 @@ public class NettyRpcServer implements RpcServer {
                     // TCP默认开启了 Nagle 算法，该算法的作用是尽可能的发送大数据快，减少网络传输次数
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     // 临时存放已完成三次握手的请求的队列的最大长度，调大后可以提高服务器的并发能力
-                    .childOption(ChannelOption.SO_BACKLOG, 128)
+                    .option(ChannelOption.SO_BACKLOG, 128)
                     // 保持活动连接状态
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .handler(new LoggingHandler(LogLevel.DEBUG))
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new IdleStateHandler(30, 0, 0));
+                            log.info("The client connected [{}].", ch.remoteAddress());
+                            ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS));
                             ch.pipeline().addLast(new RpcFrameDecoder());
+                            ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                             ch.pipeline().addLast(new RpcMessageCodec());
                             ch.pipeline().addLast(serviceHandlerGroup, new NettyRpcRequestHandler());
                         }
