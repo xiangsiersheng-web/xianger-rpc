@@ -10,6 +10,7 @@ import com.ws.rpc.core.loadbalance.LoadBalance;
 import com.ws.rpc.core.loadbalance.impl.RoundRobinLoadBalance;
 import com.ws.rpc.core.registry.ServiceDiscovery;
 import com.ws.rpc.core.registry.zk.ZkServiceDiscovery;
+import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceDiscovery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,7 +40,8 @@ public class RpcClientAutoConfiguration {
     @Bean(name = "serviceDiscovery")
     public ServiceDiscovery zkServiceDiscovery(@Autowired LoadBalance loadBalance) {
         log.debug("Creating service discovery instance. connect {}", properties.getRegistryAddr());
-        return new ZkServiceDiscovery(properties.getRegistryAddr(), loadBalance);
+//        return new ZkServiceDiscovery(properties.getRegistryAddr(), loadBalance);
+        return new ZookeeperServiceDiscovery(properties.getRegistryAddr(), loadBalance);
     }
 
 //    @Bean(name = "rpcClient")

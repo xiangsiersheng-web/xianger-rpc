@@ -16,4 +16,5 @@ public interface RpcClient {
      * @return
      */
     RpcResponse sendRequest(RpcRequestMetaData rpcRequestMetaData);
+
 }

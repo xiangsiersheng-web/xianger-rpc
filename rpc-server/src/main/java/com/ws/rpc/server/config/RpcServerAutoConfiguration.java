@@ -2,6 +2,7 @@ package com.ws.rpc.server.config;
 
 import com.ws.rpc.core.registry.ServiceRegistry;
 import com.ws.rpc.core.registry.zk.ZkServiceRegistry;
+import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceRegistry;
 import com.ws.rpc.server.spring.RpcBeanPostProcessor;
 import com.ws.rpc.server.spring.RpcServerRunner;
 import com.ws.rpc.server.transport.RpcServer;
@@ -28,7 +29,8 @@ public class RpcServerAutoConfiguration {
 
     @Bean
     public ServiceRegistry zkServiceRegistry() {
-        return new ZkServiceRegistry(properties.getRegistryAddr());
+//        return new ZkServiceRegistry(properties.getRegistryAddr());
+        return new ZookeeperServiceRegistry(properties.getRegistryAddr());
     }
 
 //    @Bean

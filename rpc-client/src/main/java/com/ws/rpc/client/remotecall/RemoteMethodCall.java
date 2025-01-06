@@ -16,6 +16,7 @@ import com.ws.rpc.core.protocol.RpcMessage;
 import com.ws.rpc.core.registry.ServiceDiscovery;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PreDestroy;
 import java.lang.reflect.Method;
 
 /**
@@ -77,5 +78,18 @@ public class RemoteMethodCall {
             throw new RpcException(response.getException());
         }
         return response.getResult();
+    }
+
+    @PreDestroy
+    public void close() throws Exception {
+        try {
+            if (serviceDiscovery != null) {
+                serviceDiscovery.destroy();
+            }
+            log.info("Rpc client resource release completed and exited successfully.");
+        } catch (Exception e) {
+            log.warn("An exception occurred while executing the destroy operation when the rpc client exited, {}.",
+                    e.getMessage());
+        }
     }
 }
