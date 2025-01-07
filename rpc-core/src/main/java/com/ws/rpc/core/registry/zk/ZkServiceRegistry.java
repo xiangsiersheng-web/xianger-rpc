@@ -65,7 +65,7 @@ public class ZkServiceRegistry implements ServiceRegistry {
                     serviceInstance.getName(), serviceInstance.getAddress(), serviceInstance.getPort());
         } catch (Exception e) {
             String errorMsg = String.format("Error occurred when registering service [%s] at address [%s:%d]",
-                    serviceInfo.getServiceKey(), serviceInfo.getAddress(), serviceInfo.getPort());
+                    serviceInfo.getServiceKey(), serviceInfo.getHost(), serviceInfo.getPort());
             log.error(errorMsg, e);
             throw new RpcException(errorMsg, e);
         }
@@ -80,7 +80,7 @@ public class ZkServiceRegistry implements ServiceRegistry {
                     serviceInstance.getName(), serviceInstance.getAddress(), serviceInstance.getPort());
         } catch (Exception e) {
             String errorMsg = String.format("Error occurred when unregistering service [%s] from address [%s:%d]",
-                    serviceInfo.getServiceKey(), serviceInfo.getAddress(), serviceInfo.getPort());
+                    serviceInfo.getServiceKey(), serviceInfo.getHost(), serviceInfo.getPort());
             log.error(errorMsg, e);
             throw new RpcException(errorMsg, e);
         }
@@ -108,7 +108,7 @@ public class ZkServiceRegistry implements ServiceRegistry {
     private ServiceInstance<ServiceInfo> buildServiceInstance(ServiceInfo serviceInfo) throws Exception {
         return ServiceInstance.<ServiceInfo>builder()
                 .name(serviceInfo.getServiceKey())
-                .address(serviceInfo.getAddress())
+                .address(serviceInfo.getHost())
                 .port(serviceInfo.getPort())
                 .payload(serviceInfo)
                 .build();

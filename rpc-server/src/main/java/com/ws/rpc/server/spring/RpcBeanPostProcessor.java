@@ -44,7 +44,7 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
                 ServiceInfo serviceInfo = ServiceInfo.builder()
                                         .serviceKey(serviceKey)
                                         .version(rpcService.version())
-                                        .address(InetAddress.getLocalHost().getHostAddress())
+                                        .host(InetAddress.getLocalHost().getHostAddress())
                                         .port(rpcServerProperties.getPort())
                                         .build();
 

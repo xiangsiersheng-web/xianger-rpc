@@ -33,7 +33,7 @@ public class ServiceInfo implements Serializable {
     /**
      * 服务提供者的主机地址（IP 或域名）
      */
-    private String address;
+    private String host;
 
     /**
      * 服务提供者的端口号

@@ -44,6 +44,14 @@ public final class CuratorUtils {
         return zkClient;
     }
 
+    /**
+     * 创建持久节点
+     *
+     * @param zkClient zk客户端
+     * @param path     节点路径
+     * @param data     节点数据
+     * @throws Exception 异常
+     */
 
     public static void createPersistentNode(CuratorFramework zkClient, String path, byte[] data) throws Exception {
         if (zkClient.checkExists().forPath(path) != null) {
@@ -61,6 +69,13 @@ public final class CuratorUtils {
         }
     }
 
+    /**
+     * 删除节点
+     *
+     * @param zkClient zk客户端
+     * @param path     节点路径
+     * @throws Exception 异常
+     */
 
     public static void deleteNode(CuratorFramework zkClient, String path) throws Exception {
         if (zkClient.checkExists().forPath(path) != null) {
@@ -71,6 +86,14 @@ public final class CuratorUtils {
         }
     }
 
+    /**
+     * 获取子节点
+     *
+     * @param zkClient zk客户端
+     * @param path     节点路径
+     * @return 子节点列表
+     * @throws Exception 异常
+     */
     public static List<String> getChildrenNodes(CuratorFramework zkClient, String path) throws Exception {
         try {
             return zkClient.getChildren().forPath(path);
@@ -80,6 +103,14 @@ public final class CuratorUtils {
         }
     }
 
+    /**
+     * 获取节点数据
+     *
+     * @param zkClient zk客户端
+     * @param path     节点路径
+     * @return 节点数据
+     * @throws Exception 异常
+     */
     public static byte[] getData(CuratorFramework zkClient, String path) throws Exception {
         try {
             return zkClient.getData().forPath(path);

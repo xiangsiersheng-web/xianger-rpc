@@ -61,7 +61,7 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
             this.identityHashCode = identityHashCode;
 
             for (ServiceInfo invoker : invokers) {
-                String address = invoker.getAddress();
+                String address = invoker.getHost() + ':' + invoker.getPort();
                 // 将一个invoker映射到replicaNumber个虚拟节点上，用treemap存储虚拟节点（long）到serviceInfo的对应关系
                 for (int i = 0; i < replicaNumber / 4; i++) {
                     // 对每个地址加上索引进行 MD5 哈希

@@ -4,8 +4,6 @@ import com.ws.rpc.core.dto.ServiceInfo;
 import com.ws.rpc.core.registry.ServiceRegistry;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * @author ws
  * @version 1.0
@@ -17,7 +15,7 @@ public class ZookeeperServiceRegistryTest {
     public void testRegister() throws Exception {
         ServiceRegistry serviceRegistry = new ZookeeperServiceRegistry("192.168.150.160:2181");
         ServiceInfo serviceInfo = ServiceInfo.builder()
-                .address("192.168.150.101")
+                .host("192.168.150.101")
                 .port(9991)
                 .serviceKey("com.ws.rpc.example.server.HelloService:1.0")
                 .version("1.0")

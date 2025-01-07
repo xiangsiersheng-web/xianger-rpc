@@ -1,7 +1,6 @@
 package com.ws.rpc.core.registry.zookeeper;
 
 import com.ws.rpc.core.dto.ServiceInfo;
-import com.ws.rpc.core.factory.SingletonFactory;
 import com.ws.rpc.core.registry.ServiceRegistry;
 import com.ws.rpc.core.registry.zookeeper.util.CuratorUtils;
 import com.ws.rpc.core.serialization.Serialization;
@@ -36,7 +35,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
     @Override
     public void register(ServiceInfo serviceInfo) throws Exception {
-        String path = BASE_PATH + "/" + serviceInfo.getServiceKey() + "/" + serviceInfo.getAddress() + ":" + serviceInfo.getPort();
+        String path = BASE_PATH + "/" + serviceInfo.getServiceKey() + "/" + serviceInfo.getHost() + ":" + serviceInfo.getPort();
         byte[] data = serialization.serialize(serviceInfo);
         try {
             CuratorUtils.createPersistentNode(zkClient, path, data);
@@ -50,7 +49,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
     @Override
     public void unregister(ServiceInfo serviceInfo) {
-        String path = BASE_PATH + "/" + serviceInfo.getServiceKey() + "/" + serviceInfo.getAddress() + ":" + serviceInfo.getPort();
+        String path = BASE_PATH + "/" + serviceInfo.getServiceKey() + "/" + serviceInfo.getHost() + ":" + serviceInfo.getPort();
         try {
             CuratorUtils.deleteNode(zkClient, path);
             serviceInfos.remove(serviceInfo);
@@ -66,7 +65,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
         try {
             for (ServiceInfo serviceInfo : serviceInfos) {
                 String parentPath = BASE_PATH + "/" + serviceInfo.getServiceKey();
-                String path = parentPath + "/" + serviceInfo.getAddress() + ":" + serviceInfo.getPort();
+                String path = parentPath + "/" + serviceInfo.getHost() + ":" + serviceInfo.getPort();
                 try {
                     CuratorUtils.deleteNode(zkClient, path); // 直接删除节点
                     log.info("Deleted service node at path: {}", path);

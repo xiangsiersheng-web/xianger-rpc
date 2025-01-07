@@ -63,7 +63,7 @@ public class RemoteMethodCall {
         RpcMessage rpcMessage = new RpcMessage(header, request);
         RpcRequestMetaData requestMetaData = RpcRequestMetaData.builder()
                 .rpcMessage(rpcMessage)
-                .serviceAddress(serviceInfo.getAddress())
+                .serviceAddress(serviceInfo.getHost())
                 .servicePort(serviceInfo.getPort())
                 .timeout(rpcClientProperties.getTimeout())
                 .build();

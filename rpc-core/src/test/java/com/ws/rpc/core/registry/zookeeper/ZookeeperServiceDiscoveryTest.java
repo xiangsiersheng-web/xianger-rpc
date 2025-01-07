@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * @author ws
  * @version 1.0
@@ -24,7 +22,7 @@ public class ZookeeperServiceDiscoveryTest {
         ServiceRegistry serviceRegistry = new ZookeeperServiceRegistry("192.168.150.160:2181");
         for (int port = 9991; port < 9999; port++) {
             ServiceInfo serviceInfo = ServiceInfo.builder()
-                    .address("192.168.150.101")
+                    .host("192.168.150.101")
                     .port(port)
                     .serviceKey("com.ws.rpc.example.server.HelloService:1.0")
                     .version("1.0")
@@ -49,7 +47,7 @@ public class ZookeeperServiceDiscoveryTest {
         // 删除节点后？
         System.out.println("=================删除节点后=================");
         ServiceInfo serviceInfo = ServiceInfo.builder()
-                .address("192.168.150.101")
+                .host("192.168.150.101")
                 .port(9991)
                 .serviceKey("com.ws.rpc.example.server.HelloService:1.0")
                 .version("1.0")
