@@ -41,9 +41,10 @@ public class ServiceInfo implements Serializable {
     private int port;
 
     /**
-     * 服务权重，用于负载均衡策略
+     * 服务权重，用于负载均衡策略。默认为1
      */
-    private int weight;
+    @Builder.Default
+    private int weight = 1;
 
     /**
      * 其他可能的元数据，如健康状态、服务描述等
