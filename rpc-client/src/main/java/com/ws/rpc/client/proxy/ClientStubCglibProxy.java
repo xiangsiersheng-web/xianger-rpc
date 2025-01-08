@@ -16,15 +16,23 @@ import java.lang.reflect.Method;
 public class ClientStubCglibProxy implements MethodInterceptor {
     private final String serviceKey;
     private final RemoteMethodCall remoteMethodCall;
+    private final int timeout;
+    private final int retry;
 
     public ClientStubCglibProxy(String serviceKey, RemoteMethodCall remoteMethodCall) {
+        this(serviceKey, remoteMethodCall, 0, 0);
+    }
+
+    public ClientStubCglibProxy(String serviceKey, RemoteMethodCall remoteMethodCall, int timeout, int retry) {
         this.serviceKey = serviceKey;
         this.remoteMethodCall = remoteMethodCall;
+        this.timeout = timeout;
+        this.retry = retry;
     }
 
     @Override
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        return remoteMethodCall.call(serviceKey, method, args);
+        return remoteMethodCall.call(serviceKey, method, args, timeout, retry);
     }
 
     @SuppressWarnings("unchecked")

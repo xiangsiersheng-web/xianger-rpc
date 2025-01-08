@@ -15,10 +15,18 @@ import java.lang.reflect.Proxy;
 public class ClientStubJDKProxy implements InvocationHandler {
     private final String serviceKey;
     private final RemoteMethodCall remoteMethodCall;
+    private final int timeout;
+    private final int retry;
 
     public ClientStubJDKProxy(String serviceKey, RemoteMethodCall remoteMethodCall) {
+        this(serviceKey, remoteMethodCall, 0, 0);
+    }
+
+    public ClientStubJDKProxy(String serviceKey, RemoteMethodCall remoteMethodCall, int timeout, int retry) {
         this.serviceKey = serviceKey;
         this.remoteMethodCall = remoteMethodCall;
+        this.timeout = timeout;
+        this.retry = retry;
     }
 
     @SuppressWarnings("unchecked")
@@ -30,6 +38,6 @@ public class ClientStubJDKProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return remoteMethodCall.call(serviceKey, method, args);
+        return remoteMethodCall.call(serviceKey, method, args, timeout, retry);
     }
 }

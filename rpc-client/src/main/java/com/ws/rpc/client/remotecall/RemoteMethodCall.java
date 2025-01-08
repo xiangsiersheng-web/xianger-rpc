@@ -37,6 +37,10 @@ public class RemoteMethodCall {
     }
 
     public Object call(String serviceKey, Method method, Object[] args) {
+        return call(serviceKey, method, args, 0, 0);
+    }
+
+    public Object call(String serviceKey, Method method, Object[] args, int timeout, int retry) {
         // 构造request
         RpcRequest request = RpcRequest.builder()
                 .serviceKey(serviceKey)
@@ -61,14 +65,39 @@ public class RemoteMethodCall {
 
         // 构造请求消息
         RpcMessage rpcMessage = new RpcMessage(header, request);
+        timeout = timeout <= 0 ? rpcClientProperties.getTimeout() : timeout;    // 超时
+        retry = retry <= 0 ? rpcClientProperties.getRetry() : retry;            // 重试次数
         RpcRequestMetaData requestMetaData = RpcRequestMetaData.builder()
                 .rpcMessage(rpcMessage)
                 .serviceAddress(serviceInfo.getHost())
                 .servicePort(serviceInfo.getPort())
-                .timeout(rpcClientProperties.getTimeout())
+                .timeout(timeout)
                 .build();
+
         // 调用rpcClient发送请求
-        RpcResponse response = rpcClient.sendRequest(requestMetaData);
+        RpcResponse response = null;
+        int attempt = 0;
+        while (response == null && attempt <= retry) {
+            try {
+                response = rpcClient.sendRequest(requestMetaData);
+            } catch (Exception e) {
+                if (attempt >= retry) {
+                    log.warn("Rpc retry {} all failed", retry);
+                    break;
+                }
+                attempt += 1;
+                long sleepTime = (long) timeout * attempt;
+                log.warn("Rpc remote call failed (attempt {} of {}). Retrying in {} ms.",
+                        attempt, retry, sleepTime);
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();  // 如果被中断，则恢复中断状态
+                    log.error("Thread interrupted during retry sleep.", ex);
+                    throw new RpcException("Rpc call interrupted during retries.", ex);
+                }
+            }
+        }
         if (response == null) {
             log.error("Remote procedure call failure.");
             throw new RpcException("Remote procedure call failure. " + requestMetaData);

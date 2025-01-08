@@ -1,5 +1,6 @@
 package com.ws.rpc.client.proxy;
 
+import com.ws.rpc.client.annotation.RpcReference;
 import com.ws.rpc.client.remotecall.RemoteMethodCall;
 import com.ws.rpc.core.utils.ServiceUtil;
 
@@ -20,15 +21,17 @@ public class ClientStubProxyFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getProxy(Class<T> clazz, String version) {
+    public <T> T getProxy(Class<T> clazz, RpcReference rpcReference) {
+        int timeout = rpcReference.timeout();
+        int retry = rpcReference.retry();
         // clazz: com.ws.rpc.service.HelloService
-        return (T) proxyCache.computeIfAbsent(ServiceUtil.getServiceKey(clazz.getName(), version), key -> {
+        return (T) proxyCache.computeIfAbsent(ServiceUtil.getServiceKey(clazz.getName(), rpcReference.version()), key -> {
             if (clazz.isInterface()) {
                 // 优先使用 JDK 动态代理
-                return new ClientStubJDKProxy(key, remoteMethodCall).getProxyInstance(clazz);
+                return new ClientStubJDKProxy(key, remoteMethodCall, timeout, retry).getProxyInstance(clazz);
             } else {
                 // 如果不是接口，则使用 CGLIB 动态代理
-                return new ClientStubCglibProxy(key, remoteMethodCall).getProxyInstance(clazz);
+                return new ClientStubCglibProxy(key, remoteMethodCall, timeout, retry).getProxyInstance(clazz);
             }
         });
     }

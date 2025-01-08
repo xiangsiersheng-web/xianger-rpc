@@ -85,8 +85,8 @@ public class NettyRpcClient implements RpcClient {
                 }
             });
             // 超时设置
-            Long timeout = rpcRequestMetaData.getTimeout();
-            if (timeout != null && timeout > 0) {
+            int timeout = rpcRequestMetaData.getTimeout();
+            if (timeout > 0) {
                 boolean isSuccess = promise.await(timeout, TimeUnit.MILLISECONDS);
                 if (!isSuccess) {
                     log.error("The client send the message timeout. {}", rpcRequestMetaData);

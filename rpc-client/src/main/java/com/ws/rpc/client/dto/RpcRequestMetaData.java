@@ -20,5 +20,5 @@ public class RpcRequestMetaData {
     private RpcMessage rpcMessage;
     private String serviceAddress;
     private Integer servicePort;
-    private Long timeout;
+    private int timeout;
 }

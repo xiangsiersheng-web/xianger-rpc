@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HelloController {
-    @RpcReference(version = "1.0")
+    @RpcReference(version = "1.0", timeout = 1000, retry = 3)
     private HelloService helloService;
 
     public void test() {

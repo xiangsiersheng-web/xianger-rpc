@@ -35,7 +35,7 @@ public class RpcClientBeanPostProcessor implements BeanPostProcessor {
             RpcReference rpcReference = declaredField.getAnnotation(RpcReference.class);
             if (rpcReference != null) {
                 Class<?> clazz = declaredField.getType();
-                Object proxy = clientStubProxyFactory.getProxy(clazz, rpcReference.version());
+                Object proxy = clientStubProxyFactory.getProxy(clazz, rpcReference);
                 try {
                     declaredField.setAccessible(true);
                     declaredField.set(bean, proxy);
