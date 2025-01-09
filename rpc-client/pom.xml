@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ws.rpc</groupId>
         <artifactId>xianger-rpc</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>rpc-client</artifactId>
@@ -40,5 +40,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

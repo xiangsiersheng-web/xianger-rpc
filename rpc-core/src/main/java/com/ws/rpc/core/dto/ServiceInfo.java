@@ -21,6 +21,11 @@ public class ServiceInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 服务提供者的名称（可选），用于标识多个相同 serviceKey 的提供者
+     */
+    private String providerName;
+
+    /**
      * 服务名称（全限定名+version）
      */
     private String serviceKey;

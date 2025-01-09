@@ -16,7 +16,7 @@ import java.net.UnknownHostException;
 @ConfigurationProperties(prefix = "rpc.server")
 public class RpcServerProperties {
 
-    private String appName;
+    private String providerName;
 
     private Integer port;
 
@@ -26,7 +26,7 @@ public class RpcServerProperties {
      * 进行默认初始化值
      */
     public RpcServerProperties() throws UnknownHostException {
-        this.appName = "server-01";
+        this.providerName = "server-01";
         this.port = 9090;
         this.registryAddr = "127.0.0.1:2181";
     }

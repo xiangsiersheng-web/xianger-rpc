@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ws.rpc</groupId>
         <artifactId>xianger-rpc</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>example-client</artifactId>
@@ -28,6 +28,20 @@
             <artifactId>rpc-client</artifactId>
             <version>${xianger-rpc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

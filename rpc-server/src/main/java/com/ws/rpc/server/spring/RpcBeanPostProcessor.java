@@ -46,6 +46,7 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
                                         .version(rpcService.version())
                                         .host(InetAddress.getLocalHost().getHostAddress())
                                         .port(rpcServerProperties.getPort())
+                                        .providerName(rpcServerProperties.getProviderName())
                                         .build();
 
                 // 注册

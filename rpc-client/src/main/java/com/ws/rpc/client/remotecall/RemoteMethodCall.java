@@ -56,7 +56,7 @@ public class RemoteMethodCall {
         }
         // 构造消息头
         MessageHeader header = new MessageHeader();
-        header.setMessageId(ProtocolConstants.MessageIdGenerator.nextId());
+        header.setMessageId(ProtocolConstants.MessageIdGenerator.nextId()); // 生成消息id
         header.setMessageType(MessageType.REQUEST.getCode());
         header.setCompressionAlgorithm(
                 CompressionType.fromString(rpcClientProperties.getCompression()).getType());

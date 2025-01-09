@@ -30,7 +30,7 @@ public class RpcServerRunner implements CommandLineRunner {
         // 启动 RPC 服务器
         new Thread(() -> rpcServer.start(properties.getPort())).start();
         log.info("Rpc server [{}] started. AppName: {}, Port: {}",
-                rpcServer.getClass().getSimpleName(), properties.getAppName(), properties.getPort());
+                rpcServer.getClass().getSimpleName(), properties.getProviderName(), properties.getPort());
 
         // 添加 JVM 关闭钩子
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

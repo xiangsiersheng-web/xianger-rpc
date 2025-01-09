@@ -6,7 +6,7 @@
 
     <groupId>com.ws.rpc</groupId>
     <artifactId>xianger-rpc</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>  <!-- 父项目一般使用pom作为打包方式 -->
     <name>xianger-rpc</name>
 
@@ -24,12 +24,12 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <xianger-rpc.version>1.0</xianger-rpc.version>
+        <xianger-rpc.version>1.0.0</xianger-rpc.version>
         <curator.version>4.0.0</curator.version>
         <lombok.version>1.18.20</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <spring-boot.version>2.5.2</spring-boot.version>
+        <spring-boot.version>2.5.4</spring-boot.version>
         <cglib.version>3.1</cglib.version>
         <netty.version>4.1.39.Final</netty.version>
         <junit.version>4.13.2</junit.version>
@@ -39,8 +39,51 @@
         <protostuff.version>1.8.0</protostuff.version>
     </properties>
 
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal> <!-- 确保打包为可执行JAR -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

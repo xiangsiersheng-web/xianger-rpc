@@ -2,6 +2,7 @@ package com.ws.rpc.example.server;
 
 import com.ws.rpc.server.annotation.RpcScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @RpcScan(basePackages = {"com.ws.rpc.example.server"})
 @ComponentScan("com.ws.rpc.server.config")
+@SpringBootApplication
 public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
