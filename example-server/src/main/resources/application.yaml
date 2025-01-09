@@ -3,4 +3,6 @@ rpc:
     port: 9991
     registry-addr: 192.168.150.160:2181
     provider-name: server-01
+    registry: zookeeper
+    transport: netty
 

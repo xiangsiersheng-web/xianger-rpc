@@ -2,6 +2,7 @@ package com.ws.rpc.example.client;
 
 import com.ws.rpc.example.client.controller.HelloController;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,7 @@ import java.io.IOException;
  * @date 2024-12-28 22:46
  */
 @ComponentScan({"com.ws.rpc.client.config", "com.ws.rpc.example.client"})
+@SpringBootApplication
 public class ClientApplication {
     public static void main(String[] args) throws IOException {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ClientApplication.class, args);

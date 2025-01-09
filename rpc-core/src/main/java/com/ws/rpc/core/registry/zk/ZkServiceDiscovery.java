@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
  */
 
 @Slf4j
+@Deprecated
 public class ZkServiceDiscovery implements ServiceDiscovery {
     private static final int SESSION_TIMEOUT = 60 * 1000;
     private static final int CONNECT_TIMEOUT = 15 * 1000;

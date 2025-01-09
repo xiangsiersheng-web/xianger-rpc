@@ -9,6 +9,8 @@ import com.ws.rpc.server.transport.RpcServer;
 import com.ws.rpc.server.transport.netty.NettyRpcServer;
 import com.ws.rpc.server.transport.socket.SocketRpcServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,29 +29,38 @@ public class RpcServerAutoConfiguration {
         this.properties = rpcServerProperties;
     }
 
-    @Bean
-    public ServiceRegistry zkServiceRegistry() {
-//        return new ZkServiceRegistry(properties.getRegistryAddr());
-        return new ZookeeperServiceRegistry(properties.getRegistryAddr());
+    @Bean(name = "serviceRegistry")
+    public ServiceRegistry serviceRegistry(@Value("${rpc.server.registry:zookeeper}") String registryType) {
+        switch (registryType) {
+            case "zookeeper":
+                return new ZookeeperServiceRegistry(properties.getRegistryAddr());
+            default:
+                throw new IllegalArgumentException("Unsupported registry type: " + registryType);
+        }
     }
 
-//    @Bean
-//    public RpcServer rpcServer() {
-//        return new SocketRpcServer();
-//    }
 
-    @Bean
-    public RpcServer rpcServer() {
-        return new NettyRpcServer();
+    @Bean(name = "rpcServer")
+    public RpcServer rpcServer(@Value("${rpc.server.transport:netty}") String transportType) {
+        switch (transportType) {
+            case "netty":
+                return new NettyRpcServer();
+            case "socket":
+                return new SocketRpcServer();
+            default:
+                throw new IllegalArgumentException("Unsupported transport type: " + transportType);
+        }
     }
 
-    @Bean
+    @Bean(name = "rpcBeanPostProcessor")
+    @ConditionalOnBean({ServiceRegistry.class})
     public RpcBeanPostProcessor rpcBeanPostProcessor(@Autowired RpcServerProperties properties,
                                                      @Autowired ServiceRegistry serviceRegistry) {
         return new RpcBeanPostProcessor(properties, serviceRegistry);
     }
 
-    @Bean
+    @Bean(name = "rpcServerRunner")
+    @ConditionalOnBean({RpcServer.class, ServiceRegistry.class})
     public RpcServerRunner rpcServerRunner(@Autowired RpcServer rpcServer,
                                            @Autowired RpcServerProperties properties,
                                            @Autowired ServiceRegistry serviceRegistry) {
