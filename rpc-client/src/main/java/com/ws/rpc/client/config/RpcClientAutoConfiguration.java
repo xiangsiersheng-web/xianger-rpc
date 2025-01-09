@@ -11,18 +11,14 @@ import com.ws.rpc.core.loadbalance.impl.ConsistentHashLoadBalance;
 import com.ws.rpc.core.loadbalance.impl.RandomLoadBalance;
 import com.ws.rpc.core.loadbalance.impl.RoundRobinLoadBalance;
 import com.ws.rpc.core.registry.ServiceDiscovery;
-import com.ws.rpc.core.registry.zk.ZkServiceDiscovery;
 import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceDiscovery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.env.Environment;
 
 /**
  * 实现Spring自动配置

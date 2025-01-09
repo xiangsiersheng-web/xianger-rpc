@@ -1,7 +1,6 @@
 package com.ws.rpc.server.config;
 
 import com.ws.rpc.core.registry.ServiceRegistry;
-import com.ws.rpc.core.registry.zk.ZkServiceRegistry;
 import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceRegistry;
 import com.ws.rpc.server.spring.RpcBeanPostProcessor;
 import com.ws.rpc.server.spring.RpcServerRunner;
