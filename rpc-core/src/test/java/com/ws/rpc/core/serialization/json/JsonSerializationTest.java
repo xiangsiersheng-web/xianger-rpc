@@ -19,31 +19,31 @@ public class JsonSerializationTest {
     public void test() {
         Serialization jsonSerialization = SerializationFactory.getSerialization(SerializationType.JSON);
 
-//        RpcRequest request = RpcRequest.builder()
-//                .serviceKey("com.ws.rpc.core.service.HelloService:1.0")
-//                .methodName("hello")
-//                .parameters(new Object[]{"ws"})
-//                .parameterTypes(new Class[]{String.class})
-//                .build();
-//        byte[] bytes = jsonSerialization.serialize(request);
-//        System.out.println(new String(bytes));
-//        System.out.println(bytes.length);
-////        bytes = new byte[0];
-//        RpcRequest target = jsonSerialization.deserialize(bytes, RpcRequest.class);
-//        System.out.println(target);
-//        System.out.println(request);
-//        assertEquals(target, request);
-
-        RpcResponse response = RpcResponse.builder()
-                .result("hello")
+        RpcRequest request = RpcRequest.builder()
+                .serviceKey("com.ws.rpc.core.service.HelloService:1.0")
+                .methodName("hello")
+                .parameters(new Object[]{"ws"})
+                .parameterTypes(new Class[]{String.class})
                 .build();
-
-        byte[] bytes = jsonSerialization.serialize(response);
+        byte[] bytes = jsonSerialization.serialize(request);
         System.out.println(new String(bytes));
         System.out.println(bytes.length);
-        RpcResponse target = jsonSerialization.deserialize(bytes, RpcResponse.class);
+//        bytes = new byte[0];
+        RpcRequest target = jsonSerialization.deserialize(bytes, RpcRequest.class);
         System.out.println(target);
+        System.out.println(request);
+        assertEquals(target, request);
 
-        assertEquals(target, response);
+//        RpcResponse response = RpcResponse.builder()
+//                .result("hello")
+//                .build();
+//
+//        byte[] bytes = jsonSerialization.serialize(response);
+//        System.out.println(new String(bytes));
+//        System.out.println(bytes.length);
+//        RpcResponse target = jsonSerialization.deserialize(bytes, RpcResponse.class);
+//        System.out.println(target);
+//
+//        assertEquals(target, response);
     }
 }

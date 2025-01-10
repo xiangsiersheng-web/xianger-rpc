@@ -37,13 +37,15 @@ public class NettyRpcClient implements RpcClient {
     private final ChannelProvider channelProvider;
     private static final RpcFrameDecoder RPC_FRAME_DECODER = new RpcFrameDecoder();
     private static final RpcMessageCodec RPC_MESSAGE_CODEC = new RpcMessageCodec();
+    private static final int CONNECT_TIMEOUT_MILLISECONDS = (int) TimeUnit.SECONDS.toMillis(10);
+
 
     public NettyRpcClient() {
         this.bootstrap = new Bootstrap();
         this.eventLoopGroup = new NioEventLoopGroup();
         bootstrap.group(eventLoopGroup)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, CONNECT_TIMEOUT_MILLISECONDS)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {

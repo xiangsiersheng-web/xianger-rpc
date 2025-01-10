@@ -3,6 +3,9 @@ package com.ws.rpc.client.remotecall;
 import com.ws.rpc.client.config.RpcClientProperties;
 import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
+import com.ws.rpc.core.enums.RetryStrategyType;
+import com.ws.rpc.core.fault.retry.RetryStrategy;
+import com.ws.rpc.core.fault.retry.RetryStrategyFactory;
 import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
@@ -18,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PreDestroy;
 import java.lang.reflect.Method;
+import java.util.concurrent.Callable;
 
 /**
  * @author ws
@@ -74,34 +78,20 @@ public class RemoteMethodCall {
                 .timeout(timeout)
                 .build();
 
-        // 调用rpcClient发送请求
-        RpcResponse response = null;
-        int attempt = 0;
-        while (response == null && attempt <= retry) {
-            try {
-                response = rpcClient.sendRequest(requestMetaData);
-            } catch (Exception e) {
-                if (attempt >= retry) {
-                    log.warn("Rpc retry {} all failed", retry);
-                    break;
-                }
-                attempt += 1;
-                long sleepTime = (long) timeout * attempt;
-                log.warn("Rpc remote call failed (attempt {} of {}). Retrying in {} ms.",
-                        attempt, retry, sleepTime);
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();  // 如果被中断，则恢复中断状态
-                    log.error("Thread interrupted during retry sleep.", ex);
-                    throw new RpcException("Rpc call interrupted during retries.", ex);
-                }
-            }
-        }
-        if (response == null) {
+        // 获取重试策略
+        RetryStrategy retryStrategy = RetryStrategyFactory.getRetryStrategy(
+                RetryStrategyType.fromString(rpcClientProperties.getRetryStrategy()));
+
+        // 使用重试策略进行远程调用
+        RpcResponse response;
+        Callable<RpcResponse> callable = () -> rpcClient.sendRequest(requestMetaData);
+        try {
+            response = retryStrategy.executeWithRetry(callable, retry, timeout);
+        } catch (Exception e) {
             log.error("Remote procedure call failure.");
             throw new RpcException("Remote procedure call failure. " + requestMetaData);
         }
+
         // 获取响应消息
         if (response.getException() != null) {
             throw new RpcException(response.getException());
