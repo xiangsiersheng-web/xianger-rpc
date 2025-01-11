@@ -18,6 +18,8 @@
         <module>example-server</module>
         <module>example-client</module>
         <module>example-service-api</module>
+        <module>rpc-server-spring-boot-starter</module>
+        <module>rpc-client-spring-boot-starter</module>
     </modules>
 
     <properties>

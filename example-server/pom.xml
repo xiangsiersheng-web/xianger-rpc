@@ -19,13 +19,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.ws.rpc</groupId>
-            <artifactId>rpc-server</artifactId>
+            <artifactId>rpc-server-spring-boot-starter</artifactId>
             <version>${xianger-rpc.version}</version>
         </dependency>
         <dependency>

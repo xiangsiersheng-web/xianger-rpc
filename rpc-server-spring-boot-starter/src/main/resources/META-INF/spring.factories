@@ -1,0 +1,3 @@
+# 自动配置
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ws.rpc.server.config.RpcServerAutoConfiguration

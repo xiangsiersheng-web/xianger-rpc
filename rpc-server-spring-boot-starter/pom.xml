@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>example-client</artifactId>
+    <artifactId>rpc-server-spring-boot-starter</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,21 +20,21 @@
     <dependencies>
         <dependency>
             <groupId>com.ws.rpc</groupId>
-            <artifactId>example-service-api</artifactId>
+            <artifactId>rpc-server</artifactId>
             <version>${xianger-rpc.version}</version>
         </dependency>
+        <!-- Spring Boot Starter Configuration Processor (for @ConfigurationProperties support) -->
         <dependency>
-            <groupId>com.ws.rpc</groupId>
-            <artifactId>rpc-client-spring-boot-starter</artifactId>
-            <version>${xianger-rpc.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

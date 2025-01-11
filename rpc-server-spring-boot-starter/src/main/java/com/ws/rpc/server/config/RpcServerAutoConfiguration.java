@@ -53,15 +53,13 @@ public class RpcServerAutoConfiguration {
 
     @Bean(name = "rpcBeanPostProcessor")
     @ConditionalOnBean({ServiceRegistry.class})
-    public RpcBeanPostProcessor rpcBeanPostProcessor(@Autowired RpcServerProperties properties,
-                                                     @Autowired ServiceRegistry serviceRegistry) {
+    public RpcBeanPostProcessor rpcBeanPostProcessor(@Autowired ServiceRegistry serviceRegistry) {
         return new RpcBeanPostProcessor(properties, serviceRegistry);
     }
 
     @Bean(name = "rpcServerRunner")
     @ConditionalOnBean({RpcServer.class, ServiceRegistry.class})
     public RpcServerRunner rpcServerRunner(@Autowired RpcServer rpcServer,
-                                           @Autowired RpcServerProperties properties,
                                            @Autowired ServiceRegistry serviceRegistry) {
         return new RpcServerRunner(rpcServer, properties, serviceRegistry);
     }
