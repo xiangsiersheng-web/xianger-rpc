@@ -19,7 +19,7 @@ import java.net.Socket;
  */
 
 @Slf4j
-public class SocketRpcRequestHandler implements Runnable{
+public class SocketRpcRequestHandler implements Runnable {
     private final Socket socket;
     private final RpcRequestHandler requestHandler;
 
