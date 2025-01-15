@@ -22,6 +22,5 @@ public class ClientApplication {
 
         HelloController helloController = applicationContext.getBean(HelloController.class);
         helloController.test();
-//        System.in.read();
     }
 }

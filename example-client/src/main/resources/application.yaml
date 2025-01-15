@@ -2,9 +2,11 @@ rpc:
   client:
     registry-addr: 192.168.150.160:2181
     compression: un_compression
-    serialization: json
+    serialization: HESSIAN
     registry: zookeeper
     transport: netty
     retry: 3
     timeout: 5000
 
+server:
+  port: 8090
