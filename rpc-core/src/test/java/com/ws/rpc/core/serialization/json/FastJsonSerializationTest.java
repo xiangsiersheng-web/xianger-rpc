@@ -6,18 +6,19 @@ import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.serialization.Serialization;
 import com.ws.rpc.core.serialization.SerializationFactory;
 import org.junit.Test;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
 import static org.junit.Assert.*;
 
 /**
  * @author ws
  * @version 1.0
- * @date 2025-01-05 16:29
+ * @date 2025-01-15 16:37
  */
-public class JsonSerializationTest {
+public class FastJsonSerializationTest {
     @Test
     public void test() {
-        Serialization jsonSerialization = SerializationFactory.getSerialization(SerializationType.JSON);
+        Serialization jsonSerialization = new FastJsonSerialization();
 
         RpcRequest request = RpcRequest.builder()
                 .serviceKey("com.ws.rpc.core.service.HelloService:1.0")
@@ -34,16 +35,18 @@ public class JsonSerializationTest {
         System.out.println(request);
         assertEquals(target, request);
 
-//        RpcResponse response = RpcResponse.builder()
-//                .result("hello")
-//                .build();
-//
-//        byte[] bytes = jsonSerialization.serialize(response);
-//        System.out.println(new String(bytes));
-//        System.out.println(bytes.length);
-//        RpcResponse target = jsonSerialization.deserialize(bytes, RpcResponse.class);
-//        System.out.println(target);
-//
-//        assertEquals(target, response);
+        RpcResponse response = RpcResponse.builder()
+                .result("hello")
+                .build();
+
+        bytes = jsonSerialization.serialize(response);
+        System.out.println(new String(bytes));
+        System.out.println(bytes.length);
+        RpcResponse target2 = jsonSerialization.deserialize(bytes, RpcResponse.class);
+        System.out.println(target2);
+
+        assertEquals(target2, response);
     }
+
+
 }

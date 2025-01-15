@@ -1,12 +1,9 @@
 package com.ws.rpc.core.serialization.json;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.ws.rpc.core.exception.SerializationException;
 import com.ws.rpc.core.serialization.Serialization;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
@@ -15,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * @date 2025-01-05 15:42
  */
-public class JsonSerialization implements Serialization {
+public class GsonSerialization implements Serialization {
 
     private final static Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Class.class, new ClassTypeAdapter())

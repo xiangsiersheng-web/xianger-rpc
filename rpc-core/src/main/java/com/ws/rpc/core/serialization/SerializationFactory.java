@@ -4,7 +4,8 @@ import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.factory.SingletonFactory;
 import com.ws.rpc.core.serialization.hessian.HessianSerialization;
 import com.ws.rpc.core.serialization.jdk.JdkSerialization;
-import com.ws.rpc.core.serialization.json.JsonSerialization;
+import com.ws.rpc.core.serialization.json.FastJsonSerialization;
+import com.ws.rpc.core.serialization.json.GsonSerialization;
 import com.ws.rpc.core.serialization.kryo.KryoSerialization;
 import com.ws.rpc.core.serialization.protostuff.ProtostuffSerialization;
 
@@ -19,7 +20,8 @@ public class SerializationFactory {
             case JDK:
                 return SingletonFactory.getInstance(JdkSerialization.class);
             case JSON:
-                return SingletonFactory.getInstance(JsonSerialization.class);
+//                return SingletonFactory.getInstance(GsonSerialization.class);
+                return SingletonFactory.getInstance(FastJsonSerialization.class);
             case HESSIAN:
                 return SingletonFactory.getInstance(HessianSerialization.class);
             case KRYO:

@@ -1,9 +1,13 @@
 package com.ws.rpc.example.server.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.google.gson.reflect.TypeToken;
+import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.serialization.Serialization;
 import com.ws.rpc.core.serialization.SerializationFactory;
+import com.ws.rpc.core.serialization.json.GsonSerialization;
 import com.ws.rpc.example.pojo.User;
 import org.junit.Test;
 
@@ -24,19 +28,22 @@ public class UserServiceImplTest {
         UserServiceImpl userService = new UserServiceImpl();
         User me = userService.getMe();
 
+
         Serialization serialization = SerializationFactory.getSerialization(SerializationType.JSON);
+//        Serialization serialization = new GsonSerialization();
         byte[] bytes = serialization.serialize(me);
         User user = serialization.deserialize(bytes, User.class);
 
         System.out.println(user);
 
-        List<User> users = userService.getUsers();
-        bytes = serialization.serialize(me);
-
-//        // 使用 TypeToken 提供泛型类型信息
-//        Type userListType = new TypeToken<List<User>>() {}.getType();
-//        List<User> target = serialization.deserialize(bytes, userListType);
-//
-//        System.out.println(target);
+        RpcResponse response = RpcResponse.builder()
+                .result(me)
+                .build();
+        byte[] bytes1 = serialization.serialize(response);
+        RpcResponse rpcResponse = serialization.deserialize(bytes1, RpcResponse.class);
+        JSONObject result = (JSONObject)rpcResponse.getResult();
+        User user1 = result.toJavaObject(User.class);
+        rpcResponse.setResult(user1);
+        System.out.println(rpcResponse);
     }
 }
