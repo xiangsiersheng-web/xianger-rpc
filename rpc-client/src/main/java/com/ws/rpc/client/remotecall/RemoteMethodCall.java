@@ -105,6 +105,9 @@ public class RemoteMethodCall {
             if (serviceDiscovery != null) {
                 serviceDiscovery.destroy();
             }
+            if (rpcClient != null) {
+                rpcClient.close();
+            }
             log.info("Rpc client resource release completed and exited successfully.");
         } catch (Exception e) {
             log.warn("An exception occurred while executing the destroy operation when the rpc client exited, {}.",

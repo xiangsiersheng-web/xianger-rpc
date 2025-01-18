@@ -48,5 +48,29 @@ public class FastJsonSerializationTest {
         assertEquals(target2, response);
     }
 
+    static class User {
+        private String name;
+        private Integer age;
+        public User(String name, Integer age) {
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+    @Test
+    public void testWithClass() {
+        User ws = new User("ws", 18);
+        RpcResponse response = RpcResponse.builder()
+                .result(ws)
+                .build();
+
+//        Serialization serialization = SerializationFactory.getSerialization(SerializationType.JSON);
+        Serialization serialization = new GsonSerialization();
+        byte[] bytes = serialization.serialize(response);
+        System.out.println(new String(bytes));
+
+        RpcResponse target = serialization.deserialize(bytes, RpcResponse.class);
+        System.out.println(target.getResult().getClass());
+    }
 
 }

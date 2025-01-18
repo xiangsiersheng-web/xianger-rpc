@@ -1,10 +1,15 @@
 package com.ws.rpc.core.serialization.kryo;
 
 import com.ws.rpc.core.dto.RpcRequest;
+import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.serialization.Serialization;
 import com.ws.rpc.core.serialization.SerializationFactory;
+import com.ws.rpc.core.serialization.hessian.HessianSerialization;
+import com.ws.rpc.core.serialization.hessian.HessianSerializationTest;
 import org.junit.Test;
+
+import java.io.Serializable;
 
 import static org.junit.Assert.*;
 
@@ -31,5 +36,30 @@ public class KryoSerializationTest {
         System.out.println(target);
         System.out.println(request);
         assertEquals(target, request);
+    }
+
+    static class User implements Serializable {
+        private String name;
+        private Integer age;
+        public User() {}
+        public User(String name, Integer age) {
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+    @Test
+    public void testWithClass() {
+        User ws = new User("ws", 18);
+        RpcResponse response = RpcResponse.builder()
+                .result(ws)
+                .build();
+
+        Serialization serialization = new KryoSerialization();
+        byte[] bytes = serialization.serialize(response);
+        System.out.println(new String(bytes));
+
+        RpcResponse target = serialization.deserialize(bytes, RpcResponse.class);
+        System.out.println(target.getResult().getClass());
     }
 }

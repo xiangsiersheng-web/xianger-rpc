@@ -17,4 +17,5 @@ public interface RpcClient {
      */
     RpcResponse sendRequest(RpcRequestMetaData rpcRequestMetaData);
 
+    default void close() {}
 }
