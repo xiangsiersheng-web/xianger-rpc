@@ -1,10 +1,15 @@
 package com.ws.rpc.core.serialization.json;
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.enums.SerializationType;
 import com.ws.rpc.core.serialization.Serialization;
 import com.ws.rpc.core.serialization.SerializationFactory;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.junit.Test;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
@@ -48,6 +53,8 @@ public class FastJsonSerializationTest {
         assertEquals(target2, response);
     }
 
+    @Data
+    @NoArgsConstructor
     static class User {
         private String name;
         private Integer age;
@@ -64,8 +71,8 @@ public class FastJsonSerializationTest {
                 .result(ws)
                 .build();
 
-//        Serialization serialization = SerializationFactory.getSerialization(SerializationType.JSON);
-        Serialization serialization = new GsonSerialization();
+        Serialization serialization = SerializationFactory.getSerialization(SerializationType.JSON);
+//        Serialization serialization = new GsonSerialization();
         byte[] bytes = serialization.serialize(response);
         System.out.println(new String(bytes));
 
