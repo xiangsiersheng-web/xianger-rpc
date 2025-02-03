@@ -6,9 +6,6 @@ import com.ws.rpc.client.spring.RpcClientBeanPostProcessor;
 import com.ws.rpc.client.transport.RpcClient;
 import com.ws.rpc.client.transport.netty.NettyRpcClient;
 import com.ws.rpc.client.transport.socket.SocketRpcClient;
-import com.ws.rpc.core.enums.RetryStrategyType;
-import com.ws.rpc.core.fault.retry.RetryStrategy;
-import com.ws.rpc.core.fault.retry.RetryStrategyFactory;
 import com.ws.rpc.core.loadbalance.LoadBalance;
 import com.ws.rpc.core.loadbalance.impl.ConsistentHashLoadBalance;
 import com.ws.rpc.core.loadbalance.impl.RandomLoadBalance;
@@ -31,11 +28,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(RpcClientProperties.class)
+@EnableConfigurationProperties({RpcClientProperties.class, RetryProperties.class, CircuitBreakerProperties.class})
 public class RpcClientAutoConfiguration {
     private final RpcClientProperties properties;
-    public RpcClientAutoConfiguration(RpcClientProperties rpcClientProperties) {
+    private final RetryProperties retryProperties;
+    private final CircuitBreakerProperties circuitBreakerProperties;
+    public RpcClientAutoConfiguration(RpcClientProperties rpcClientProperties,
+                                      RetryProperties retryProperties,
+                                      CircuitBreakerProperties circuitBreakerProperties) {
         this.properties = rpcClientProperties;
+        this.retryProperties = retryProperties;
+        this.circuitBreakerProperties = circuitBreakerProperties;
     }
 
     @Bean(name = "loadBalance")
@@ -77,7 +80,7 @@ public class RpcClientAutoConfiguration {
                                              @Autowired ServiceDiscovery serviceDiscovery) {
         // RemoteMethodCall 负责远程方法的调用
         log.debug("Creating remote method call instance. dependency: {} \n {}", rpcClient, serviceDiscovery);
-        return new RemoteMethodCall(properties, rpcClient, serviceDiscovery);
+        return new RemoteMethodCall(properties, retryProperties, circuitBreakerProperties, rpcClient, serviceDiscovery);
     }
 
     @Bean(name = "clientStubProxyFactory")

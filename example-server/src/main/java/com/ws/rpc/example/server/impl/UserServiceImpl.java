@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(Integer id) {
+//        int i = 1 / 0;
         return userMap.get(id);
     }
 

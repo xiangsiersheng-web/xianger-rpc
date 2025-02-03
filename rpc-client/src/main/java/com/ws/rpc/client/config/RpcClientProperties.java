@@ -17,9 +17,7 @@ public class RpcClientProperties {
     private String compression;
     private String registry;
     private String registryAddr;
-    private String retryStrategy;
     private int timeout;
-    private int retry;
 
     public RpcClientProperties() {
         this.loadbalance = "random";
@@ -28,8 +26,6 @@ public class RpcClientProperties {
         this.compression = "un_compression";
         this.registry = "zookeeper";
         this.registryAddr = "127.0.0.1:2181";
-        this.retryStrategy = "exponential_backoff";
         this.timeout = 5000;
-        this.retry = 3;
     }
 }

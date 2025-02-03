@@ -69,6 +69,10 @@ public final class CuratorUtils {
         }
     }
 
+    public static boolean checkNodeExists(CuratorFramework zkClient, String path) throws Exception {
+        return zkClient.checkExists().forPath(path) != null;
+    }
+
     /**
      * 删除节点
      *

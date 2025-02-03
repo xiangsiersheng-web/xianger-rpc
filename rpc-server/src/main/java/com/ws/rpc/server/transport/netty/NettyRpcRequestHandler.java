@@ -57,7 +57,7 @@ public class NettyRpcRequestHandler extends SimpleChannelInboundHandler<RpcMessa
                     Object result = requestHandler.handleRpcRequest(rpcRequest);
                     rpcResponse.setResult(result);
                 } catch (Exception e) {
-                    log.error("RpcRequestHandler handle error: {}", e.getMessage());
+                    log.error("RpcRequestHandler handle error: {}", e.getCause().getMessage());
                     rpcResponse.setException(e);
                 }
                 responseRpcMessage.setHeader(header);

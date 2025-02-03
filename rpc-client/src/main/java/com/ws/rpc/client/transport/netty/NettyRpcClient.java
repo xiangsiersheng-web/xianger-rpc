@@ -52,7 +52,7 @@ public class NettyRpcClient implements RpcClient {
                         // 写空闲时触发一个 IdleStateEvent#WRITER_IDLE
                         ch.pipeline().addLast(new IdleStateHandler(0, 15, 0, TimeUnit.SECONDS));
                         // 帧解码器 粘包拆包
-                        ch.pipeline().addLast(RPC_FRAME_DECODER);
+                        ch.pipeline().addLast(new RpcFrameDecoder());
                         ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                         // 协议编解码器
                         ch.pipeline().addLast(RPC_MESSAGE_CODEC);

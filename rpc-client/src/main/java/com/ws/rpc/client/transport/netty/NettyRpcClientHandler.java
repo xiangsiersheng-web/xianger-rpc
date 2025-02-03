@@ -28,13 +28,8 @@ public class NettyRpcClientHandler extends SimpleChannelInboundHandler<RpcMessag
                 int messageId = msg.getHeader().getMessageId();
                 Promise<RpcMessage> promise = UnprocessedRequests.remove(messageId);
                 if (promise != null) {
-                    RpcResponse rpcResponse = (RpcResponse) msg.getBody();
-                    Exception exception = rpcResponse.getException();
-                    if (exception == null) {
-                        promise.setSuccess(msg);
-                    } else {
-                        promise.setFailure(exception);
-                    }
+                    // 只要得到影响，无论是否包含异常，都调用setSuccess，异常交由上级处理
+                    promise.setSuccess(msg);
                 }
             } else if (msgType == MessageType.HEARTBEAT_RESPONSE){
                 log.info("Heartbeat msg. {}", msg.getBody());

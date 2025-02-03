@@ -2,11 +2,16 @@ rpc:
   client:
     registry-addr: 192.168.150.160:2181
     compression: un_compression
-    serialization: HESSIAN
+    serialization: json
     registry: zookeeper
     transport: netty
-    retry: 3
     timeout: 5000
+    retry:
+      retry-max: 3
+      retry-interval: 1000
+      retry-strategy: exponential_backoff
+    circuit-breaker:
+      enabled: false
 
 server:
   port: 8090
