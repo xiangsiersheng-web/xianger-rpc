@@ -1,5 +1,6 @@
 package com.ws.rpc.server.transport.netty;
 
+import com.ws.rpc.core.exception.RpcException;
 import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
@@ -53,8 +54,8 @@ public class NettyRpcRequestHandler extends SimpleChannelInboundHandler<RpcMessa
                     Object result = requestHandler.handleRpcRequest(msg);
                     rpcResponse.setResult(result);
                 } catch (Exception e) {
-                    log.error("RpcRequestHandler handle error: {}", e.getCause().getMessage());
-                    rpcResponse.setException(e);
+                    log.error("RpcRequestHandler handle error: {}", e.getMessage());
+                    rpcResponse.setException(new RpcException(e.getMessage()));
                 }
                 responseRpcMessage.setHeader(header);
                 responseRpcMessage.setBody(rpcResponse);

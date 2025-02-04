@@ -22,7 +22,7 @@ public class ExponentialBackoffRetryStrategy implements RetryStrategy {
             } catch (Exception e) {
                 attempt++;
                 log.warn("Remote call failed (attempt {} of {}). Retrying in {} ms.",
-                        attempt, maxAttempts, sleepTime);
+                        attempt, maxAttempts, sleepTime, e);
                 if (attempt >= maxAttempts) {
                     log.warn("Rpc retry {} all failed", attempt);
                     throw e;

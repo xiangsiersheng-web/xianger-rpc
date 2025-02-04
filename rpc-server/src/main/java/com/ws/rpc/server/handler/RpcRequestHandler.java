@@ -2,6 +2,8 @@ package com.ws.rpc.server.handler;
 
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.exception.RpcException;
+import com.ws.rpc.core.protection.ratelimit.RateLimiter;
+import com.ws.rpc.core.protection.ratelimit.RateLimiterManager;
 import com.ws.rpc.core.protocol.RpcMessage;
 import com.ws.rpc.server.store.LocalServiceCache;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,15 @@ public class RpcRequestHandler {
         // 反射调用 todo: 这里可以拿到msg的id，可以用来做幂等
         RpcRequest rpcRequest = (RpcRequest) rpcMessage.getBody();
         log.debug("The server received the request {}.", rpcRequest);
+
+        // 限流逻辑
+        String limiterKey = rpcRequest.getServiceKey() + "$" + rpcRequest.getMethodName();
+        RateLimiter limiter = RateLimiterManager.getRateLimiter(limiterKey);
+        if (!limiter.allowRequest()) {
+            // 被限流
+            throw new RpcException("Service unavailable due to rate limiting");
+        }
+
         return handleRpcRequest(rpcRequest);
     }
 }

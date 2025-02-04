@@ -2,6 +2,7 @@ package com.ws.rpc.server.config;
 
 import com.ws.rpc.core.config.RateLimiterProperties;
 import com.ws.rpc.core.config.RpcServerProperties;
+import com.ws.rpc.core.protection.ratelimit.RateLimiterManager;
 import com.ws.rpc.core.registry.ServiceRegistry;
 import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceRegistry;
 import com.ws.rpc.server.spring.RpcBeanPostProcessor;
@@ -16,6 +17,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author ws
  * @version 1.0
@@ -25,9 +28,17 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({RpcServerProperties.class, RateLimiterProperties.class})
 public class RpcServerAutoConfiguration {
     private final RpcServerProperties properties;
+    private final RateLimiterProperties rateLimiterProperties;
 
-    public RpcServerAutoConfiguration(RpcServerProperties rpcServerProperties) {
+    public RpcServerAutoConfiguration(RpcServerProperties rpcServerProperties,
+                                      RateLimiterProperties rateLimiterProperties) {
         this.properties = rpcServerProperties;
+        this.rateLimiterProperties = rateLimiterProperties;
+    }
+
+    @PostConstruct
+    public void initCircuitBreakerManager() {
+        RateLimiterManager.init(rateLimiterProperties);
     }
 
     @Bean(name = "serviceRegistry")

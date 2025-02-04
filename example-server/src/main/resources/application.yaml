@@ -5,4 +5,9 @@ rpc:
     provider-name: server-01
     registry: zookeeper
     transport: netty
+    rate-limiter:
+      strategy: token_bucket
+      capacity: 1
+      refill-tokens: 0
+      refill-interval: 1000
 
