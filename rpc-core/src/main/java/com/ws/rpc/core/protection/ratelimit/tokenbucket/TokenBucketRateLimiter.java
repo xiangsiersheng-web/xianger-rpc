@@ -3,6 +3,7 @@ package com.ws.rpc.core.protection.ratelimit.tokenbucket;
 import com.ws.rpc.core.protection.ratelimit.RateLimiter;
 
 /**
+ * 令牌桶限流
  * @author ws
  * @version 1.0
  * @date 2025-02-04 11:03

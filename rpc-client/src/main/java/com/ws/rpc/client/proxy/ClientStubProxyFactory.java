@@ -28,10 +28,10 @@ public class ClientStubProxyFactory {
         return (T) proxyCache.computeIfAbsent(ServiceUtil.getServiceKey(clazz.getName(), rpcReference.version()), key -> {
             if (clazz.isInterface()) {
                 // 优先使用 JDK 动态代理
-                return new ClientStubJDKProxy(key, remoteMethodCall, timeout, retry).getProxyInstance(clazz);
+                return new ClientStubJDKProxy(key, remoteMethodCall, timeout, retry, rpcReference.fallback()).getProxyInstance(clazz);
             } else {
                 // 如果不是接口，则使用 CGLIB 动态代理
-                return new ClientStubCglibProxy(key, remoteMethodCall, timeout, retry).getProxyInstance(clazz);
+                return new ClientStubCglibProxy(key, remoteMethodCall, timeout, retry, rpcReference.fallback()).getProxyInstance(clazz);
             }
         });
     }

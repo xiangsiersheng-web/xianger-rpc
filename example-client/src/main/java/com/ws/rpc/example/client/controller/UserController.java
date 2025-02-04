@@ -2,6 +2,7 @@ package com.ws.rpc.example.client.controller;
 
 import com.ws.rpc.client.annotation.RpcReference;
 import com.ws.rpc.example.api.UserService;
+import com.ws.rpc.example.client.fallback.UserServiceFallback;
 import com.ws.rpc.example.pojo.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @RpcReference(version = "1.0")
+    @RpcReference(version = "1.0", fallback = UserServiceFallback.class)
     private UserService userService;
 
     @GetMapping("/me")

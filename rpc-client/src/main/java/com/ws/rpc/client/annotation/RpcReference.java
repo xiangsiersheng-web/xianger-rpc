@@ -16,4 +16,7 @@ public @interface RpcReference {
     int timeout() default 0;
 
     int retry() default 0;
+
+    // 降级策略
+    Class<?> fallback() default Void.class;
 }

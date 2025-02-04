@@ -1,5 +1,6 @@
 package com.ws.rpc.client.remotecall;
 
+import com.ws.rpc.client.annotation.RpcReference;
 import com.ws.rpc.core.config.CircuitBreakerProperties;
 import com.ws.rpc.core.config.RetryProperties;
 import com.ws.rpc.core.config.RpcClientProperties;
@@ -76,7 +77,7 @@ public class RemoteMethodCall {
                 return result;
             } catch (Exception e) {
                 breaker.recordFailure(); // 记录失败
-                throw e;
+                throw new RpcException("Remote call failure", e);
             }
         }
     }
