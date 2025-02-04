@@ -1,5 +1,7 @@
 package com.ws.rpc.server.config;
 
+import com.ws.rpc.core.config.RateLimiterProperties;
+import com.ws.rpc.core.config.RpcServerProperties;
 import com.ws.rpc.core.registry.ServiceRegistry;
 import com.ws.rpc.core.registry.zookeeper.ZookeeperServiceRegistry;
 import com.ws.rpc.server.spring.RpcBeanPostProcessor;
@@ -20,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2024-12-28 20:51
  */
 @Configuration
-@EnableConfigurationProperties(RpcServerProperties.class)
+@EnableConfigurationProperties({RpcServerProperties.class, RateLimiterProperties.class})
 public class RpcServerAutoConfiguration {
     private final RpcServerProperties properties;
 

@@ -3,7 +3,9 @@ package com.ws.rpc.server.transport.socket;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.factory.SingletonFactory;
+import com.ws.rpc.core.protocol.RpcMessage;
 import com.ws.rpc.server.handler.RpcRequestHandler;
+import io.protostuff.Rpc;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.server.Request;
 
@@ -33,18 +35,18 @@ public class SocketRpcRequestHandler implements Runnable {
         log.debug("The server handle client message by thread {}.", Thread.currentThread().getName());
         try (ObjectInputStream ois = new ObjectInputStream(socket.getInputStream()) ;
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream())) {
-            // SocketServer 接受和发送的数据为：RpcRequest, RpcResponse
-            RpcRequest rpcRequest = (RpcRequest) ois.readObject();
-            log.debug("The server received the request {}.", rpcRequest);
+            // SocketServer 接受和发送的数据为：RpcMessage, RpcMessage
+            RpcMessage rpcMessage = (RpcMessage) ois.readObject();
             RpcResponse rpcResponse = new RpcResponse();
             try {
-                Object result = requestHandler.handleRpcRequest(rpcRequest);
+                Object result = requestHandler.handleRpcRequest(rpcMessage);
                 rpcResponse.setResult(result);
             } catch (Exception e) {
                 log.error("RpcRequestHandler handle error: {}", e.getMessage());
                 rpcResponse.setException(e);
             }
-            oos.writeObject(rpcResponse);
+            rpcMessage.setBody(rpcResponse);
+            oos.writeObject(rpcMessage);
             oos.flush();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("The socket server failed to handle client rpc request.", e);

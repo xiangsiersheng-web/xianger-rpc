@@ -47,14 +47,10 @@ public class NettyRpcRequestHandler extends SimpleChannelInboundHandler<RpcMessa
                 responseRpcMessage.setHeader(header);
                 responseRpcMessage.setBody(ProtocolConstants.PONG);
             } else if (msgType == MessageType.REQUEST) {
-                // todo: 这里可以拿到msg的id，可以用来做幂等
                 header.setMessageType(MessageType.RESPONSE.getCode());
-                // 反射调用
-                RpcRequest rpcRequest = (RpcRequest) msg.getBody();
-                log.debug("The server received the request {}.", rpcRequest);
                 RpcResponse rpcResponse = new RpcResponse();
                 try {
-                    Object result = requestHandler.handleRpcRequest(rpcRequest);
+                    Object result = requestHandler.handleRpcRequest(msg);
                     rpcResponse.setResult(result);
                 } catch (Exception e) {
                     log.error("RpcRequestHandler handle error: {}", e.getCause().getMessage());

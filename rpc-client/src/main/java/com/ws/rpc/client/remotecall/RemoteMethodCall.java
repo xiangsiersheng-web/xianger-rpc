@@ -1,14 +1,15 @@
 package com.ws.rpc.client.remotecall;
 
-import com.ws.rpc.client.config.CircuitBreakerProperties;
-import com.ws.rpc.client.config.RetryProperties;
-import com.ws.rpc.client.config.RpcClientProperties;
+import com.ws.rpc.core.config.CircuitBreakerProperties;
+import com.ws.rpc.core.config.RetryProperties;
+import com.ws.rpc.core.config.RpcClientProperties;
 import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
 import com.ws.rpc.core.enums.RetryStrategyType;
 import com.ws.rpc.core.fault.retry.RetryStrategy;
 import com.ws.rpc.core.fault.retry.RetryStrategyFactory;
 import com.ws.rpc.core.protection.circuit.CircuitBreaker;
+import com.ws.rpc.core.protection.circuit.CircuitBreakerManager;
 import com.ws.rpc.core.protocol.ProtocolConstants;
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.RpcResponse;
@@ -125,7 +126,7 @@ public class RemoteMethodCall {
             response = retryStrategy.executeWithRetry(callable, retry, retryProperties.getRetryInterval());
         } catch (Exception e) {
             log.error("Remote procedure call failure.");
-            throw new RpcException("Remote procedure call failure. " + requestMetaData);
+            throw new RpcException("Remote procedure call failure. " + requestMetaData, e);
         }
 
         // 获取响应消息

@@ -1,7 +1,6 @@
-package com.ws.rpc.client.remotecall;
+package com.ws.rpc.core.protection.circuit;
 
-import com.ws.rpc.client.config.CircuitBreakerProperties;
-import com.ws.rpc.core.protection.circuit.CircuitBreaker;
+import com.ws.rpc.core.config.CircuitBreakerProperties;
 
 import java.util.concurrent.ConcurrentHashMap;
 

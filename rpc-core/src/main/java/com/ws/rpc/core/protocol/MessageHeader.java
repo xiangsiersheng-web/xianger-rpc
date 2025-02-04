@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 请求协议头部信息
  * <pre>
@@ -21,7 +23,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class MessageHeader {
+public class MessageHeader implements Serializable {
     /**
      * 魔数（用于标识协议，4字节）
      */

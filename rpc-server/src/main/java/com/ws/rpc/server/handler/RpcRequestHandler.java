@@ -2,6 +2,7 @@ package com.ws.rpc.server.handler;
 
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.exception.RpcException;
+import com.ws.rpc.core.protocol.RpcMessage;
 import com.ws.rpc.server.store.LocalServiceCache;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,5 +24,12 @@ public class RpcRequestHandler {
         }
         Method method = service.getClass().getMethod(request.getMethodName(), request.getParameterTypes());
         return method.invoke(service, request.getParameters());
+    }
+
+    public Object handleRpcRequest(RpcMessage rpcMessage) throws Exception {
+        // 反射调用 todo: 这里可以拿到msg的id，可以用来做幂等
+        RpcRequest rpcRequest = (RpcRequest) rpcMessage.getBody();
+        log.debug("The server received the request {}.", rpcRequest);
+        return handleRpcRequest(rpcRequest);
     }
 }

@@ -4,6 +4,7 @@ import com.ws.rpc.client.dto.RpcRequestMetaData;
 import com.ws.rpc.client.transport.RpcClient;
 import com.ws.rpc.core.dto.RpcResponse;
 import com.ws.rpc.core.exception.RpcException;
+import com.ws.rpc.core.protocol.RpcMessage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ObjectInputStream;
@@ -29,7 +30,7 @@ public class SocketRpcClient implements RpcClient {
             // 连接服务端，阻塞
             socket.connect(serverSocketAddress, CONNECT_TIMEOUT_MILLISECONDS);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(rpcRequestMetaData.getRpcMessage().getBody());
+            oos.writeObject(rpcRequestMetaData.getRpcMessage());
             oos.flush();
             // 读取服务端返回的响应，阻塞
             int timeout = rpcRequestMetaData.getTimeout();
@@ -37,7 +38,8 @@ public class SocketRpcClient implements RpcClient {
                 socket.setSoTimeout(timeout);   // 设置读取超时时间
             }
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            return (RpcResponse) ois.readObject();
+            RpcMessage rpcMessage = (RpcMessage) ois.readObject();
+            return (RpcResponse) rpcMessage.getBody();
         } catch (Exception e) {
             throw new RpcException("The socket client failed to send or receive message.", e);
         }

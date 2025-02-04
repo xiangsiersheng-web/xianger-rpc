@@ -1,4 +1,4 @@
-package com.ws.rpc.server.config;
+package com.ws.rpc.core.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

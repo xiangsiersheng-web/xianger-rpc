@@ -5,7 +5,7 @@ import com.ws.rpc.core.exception.RpcException;
 import com.ws.rpc.core.registry.ServiceRegistry;
 import com.ws.rpc.core.utils.ServiceUtil;
 import com.ws.rpc.server.annotation.RpcService;
-import com.ws.rpc.server.config.RpcServerProperties;
+import com.ws.rpc.core.config.RpcServerProperties;
 import com.ws.rpc.server.store.LocalServiceCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;

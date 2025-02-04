@@ -1,7 +1,7 @@
 package com.ws.rpc.server.spring;
 
 import com.ws.rpc.core.registry.ServiceRegistry;
-import com.ws.rpc.server.config.RpcServerProperties;
+import com.ws.rpc.core.config.RpcServerProperties;
 import com.ws.rpc.server.transport.RpcServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
