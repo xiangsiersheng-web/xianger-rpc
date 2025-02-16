@@ -7,7 +7,7 @@ rpc:
     transport: netty
     rate-limiter:
       strategy: token_bucket
-      capacity: 1
-      refill-tokens: 0
+      capacity: 100
+      refill-tokens: 100
       refill-interval: 1000
 

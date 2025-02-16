@@ -2,6 +2,7 @@ package com.ws.rpc.core.loadbalance;
 
 import com.ws.rpc.core.dto.RpcRequest;
 import com.ws.rpc.core.dto.ServiceInfo;
+import com.ws.rpc.core.extension.SPI;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @version 1.0
  * @date 2024-12-27 2:05
  */
+@SPI
 public interface LoadBalance {
     /**
      * 根据负载均衡策略选择一个服务

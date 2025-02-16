@@ -128,4 +128,50 @@ public class ConsistentHashLoadBalanceTest {
         // 5. 验证：服务列表为空时，负载均衡器应返回null
         Assert.assertNull(selectedService);
     }
+
+    @Test
+    public void testNodeAdd() {
+        // 1. 创建服务列表
+        List<ServiceInfo> serviceInfos = new ArrayList<>();
+        for (int port = 9990; port <= 9992; port++) {
+            ServiceInfo serviceInfo = ServiceInfo.builder()
+                    .host("192.168.150.101")
+                    .port(port)
+                    .serviceKey("com.ws.rpc.example.server.HelloService:1.0")
+                    .version("1.0")
+                    .weight(1)
+                    .metadata("测试")
+                    .build();
+            serviceInfos.add(serviceInfo);
+        }
+
+        // 2. 创建负载均衡器
+        LoadBalance loadBalance = new ConsistentHashLoadBalance();
+
+        // 3. 创建相同的请求
+        RpcRequest request = RpcRequest.builder()
+                .serviceKey("com.ws.rpc.core.service.HelloService:1.0")
+                .methodName("hello")
+                .parameters(new Object[]{"ws"})
+                .parameterTypes(new Class[]{String.class})
+                .build();
+
+        System.out.println(loadBalance.select(serviceInfos, request));
+
+        ServiceInfo serviceInfo = ServiceInfo.builder()
+                .host("192.168.150.101")
+                .port(9999)
+                .serviceKey("com.ws.rpc.example.server.HelloService:1.0")
+                .version("1.0")
+                .weight(1)
+                .metadata("测试")
+                .build();
+        // 添加节点并不会让List的identityHashCode变化，不会触发重新生成哈希环
+        serviceInfos.add(serviceInfo);
+        System.out.println(loadBalance.select(serviceInfos, request));
+
+        // 但是，dubbo的一致性hash还是用identityHashCode标识是否变化，
+        // 因为在dubbo的场景中，一旦节点变更，会重新拉取服务列表
+        // 也就会重新生成一个新的ArrayList，新的ArrayList的identityHashCode会变化
+    }
 }
