@@ -7,11 +7,11 @@
     </appender>
 
     <!-- 日志级别设置 -->
-    <root level="INFO">
+    <root level="OFF">
         <appender-ref ref="CONSOLE" />
     </root>
 
     <!-- 单独设置某些包的日志级别 -->
-    <logger name="io.netty" level="DEBUG" />
-    <logger name="com.ws.rpc" level="DEBUG" />
+<!--    <logger name="io.netty" level="DEBUG" />-->
+<!--    <logger name="com.ws.rpc" level="DEBUG" />-->
 </configuration>

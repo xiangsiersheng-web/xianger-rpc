@@ -11,7 +11,7 @@ import com.ws.rpc.server.annotation.RpcService;
 @RpcService(version = "1.0", interfaceClass = HelloService.class)
 public class HelloServiceImpl implements HelloService {
     @Override
-    public String hello(String name) {
+    public String sayHello(String name) {
         return "hello " + name;
     }
 }

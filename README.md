@@ -14,8 +14,10 @@ xianger-rpc 是一个rpc框架，是对rpc的学习和实践。
 
 - 注册中心：
   - 基于zookeeper的服务注册和发现中心，使用curator完成。
+  
 - 网络传输：
   - 基于socket（仅jdk序列化），netty的通信方式
+  
 - 序列化算法：
   - jdk，json，hessian、kryo、protostuff
 
@@ -49,9 +51,21 @@ xianger-rpc 是一个rpc框架，是对rpc的学习和实践。
     
     - 消息重试实现
     
+    - 服务保护：简易的限流器和熔断器，并支持服务降级
+    
     - 心跳机制保持长连接
     
     - 单例工厂（将clazz作为锁）
     
     - 通过yaml配置文件进行bean的自动配置
+
+      
     
+- JMH 性能测试
+    - 单线程测试：TPS约12000
+    
+      ![image-20250315232616689](./assets/image-20250315232616689.png)
+    
+    - 32个线程测试：TPS约67000
+    
+      ![image-20250315233138130](./assets/image-20250315233138130.png)

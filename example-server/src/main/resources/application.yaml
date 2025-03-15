@@ -6,8 +6,9 @@ rpc:
     registry: zookeeper
     transport: netty
     rate-limiter:
-      strategy: token_bucket
-      capacity: 100
-      refill-tokens: 100
-      refill-interval: 1000
+      strategy: no_limiter
+#      strategy: token_bucket
+#      capacity: 100
+#      refill-tokens: 100
+#      refill-interval: 1000
 

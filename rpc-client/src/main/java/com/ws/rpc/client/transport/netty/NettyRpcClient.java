@@ -139,6 +139,7 @@ public class NettyRpcClient implements RpcClient {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+        log.info("Connected successfully. Local address: [{}]", channel.localAddress());
         return channel;
     }
 

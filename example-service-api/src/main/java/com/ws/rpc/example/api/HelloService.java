@@ -6,5 +6,5 @@ package com.ws.rpc.example.api;
  * @date 2024-12-28 22:14
  */
 public interface HelloService {
-    String hello(String name);
+    String sayHello(String name);
 }
